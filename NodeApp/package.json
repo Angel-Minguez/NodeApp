@@ -1,0 +1,18 @@
+{
+  "name": "node-app",
+  "version": "0.0.0",
+  "description": "NodeApp",
+  "main": "server.js",
+  "author": {
+    "name": "Angel Minguez Burillo"
+  },
+  "scripts": {
+    "start": "node config/bootScript.js"
+  },
+  "config": {
+    "port": 11981,
+    "debug": "bootScript, off",
+    "nodeEnv": "developement"
+  },
+  "repository": ""
+}

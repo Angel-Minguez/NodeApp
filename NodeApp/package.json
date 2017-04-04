@@ -7,12 +7,16 @@
     "name": "Angel Minguez Burillo"
   },
   "scripts": {
-    "start": "node config/bootScript.js"
+    "start": "node config/bootScript"
   },
   "config": {
     "port": 11981,
-    "debug": "bootScript, off",
+    "debug": "bootScript",
     "nodeEnv": "developement"
   },
-  "repository": ""
+  "repository": "https://github.com/Angel-Minguez/NodeApp",
+  "dependencies": {
+    "express": "^4.15.2",
+    "debug": "^2.6.3"
+  }
 }

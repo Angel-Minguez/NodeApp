@@ -1,5 +1,6 @@
-﻿module.exports.userLogin = function (req, res, next) {
-    res.send('Hola Mundo');
-
-
+﻿/**************************************************************/
+/*				      Modulo controlador                      */
+/**************************************************************/
+module.exports.userLogin = function (req, res, next) {
+    res.render('index.pug', {});
 }

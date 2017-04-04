@@ -17,6 +17,7 @@
   "repository": "https://github.com/Angel-Minguez/NodeApp",
   "dependencies": {
     "express": "^4.15.2",
-    "debug": "^2.6.3"
+    "debug": "^2.6.3",
+	"pug": ""
   }
 }

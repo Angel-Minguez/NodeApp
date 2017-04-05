@@ -20,3 +20,5 @@ app.use(express.static('static'));
 //Seleccion del modulo de plantillas
 app.set('views', './views'); //Ruta a la carpeta de los templates
 app.set('view engine', 'pug'); //Motor que usaremos
+
+//http://stackoverflow.com/questions/26626249/update-part-of-a-page-in-jade

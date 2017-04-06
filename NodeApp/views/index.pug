@@ -1,8 +1,14 @@
+<!DOCTYPE html>
 html
     head
-        title!= titulo
+        script(src ="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js")
+        script.
+            function sendLoginPostRequest() {
+                $.post("/form1", $("#loginForm").serialize(), (data)=> $("#result").html(data)); 
+            }
     body
-    form(action="/form1" method="post")
-        input(type="text" name="campo1")
-        input(type="text" name="campo2")
-        input(type="submit" value="Login")
+        form(id="loginForm")
+            input(type="text" id="campo1" name="campo1")
+            input(type="text" id="campo2" name="campo2")
+            input(type="button" value="Login" onclick="sendLoginPostRequest()")
+        h1(id="result")

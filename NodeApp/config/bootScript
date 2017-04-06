@@ -39,10 +39,6 @@ commands.forEach((arg, index) => {
 		}		
 	}
 });
-//Opciones de la sesion
-if (process.env.NODE_ENV === 'developement') global.sessionOptions = {secret: 'mi secreto', saveUninitialized: false, cookie:{domain: 'nodeApp'}};
-else global.sessionOptions = {secret: 'mi secreto', cookie: {secure : true}};
-
 //Carga del modulo debug y del modulo principal
 const debug = require('debug')('bootScript');
 console.log(`Servidor en modo ${process.env.NODE_ENV} corriendo en puerto ${process.env.PORT}`);

@@ -8,7 +8,9 @@ html
             }
     body
         form(id="loginForm")
-            input(type="text" id="campo1" name="campo1")
-            input(type="text" id="campo2" name="campo2")
+            input(type="text" id="campo1" name="campo1" placeholder="User")
+            input(type="text" id="campo2" name="campo2" placeholder="Password")
             input(type="button" value="Login" onclick="sendLoginPostRequest()")
         h1(id="result")
+        p!=sid
+        p!=sessionInfo

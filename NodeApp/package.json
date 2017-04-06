@@ -20,6 +20,7 @@
     "debug": "^2.6.3",
     "pug": "^2.0.0-beta11",
     "body-parser": "^1.17.1",
-    "express-session": "^1.15.2"
+    "express-session": "^1.15.2",
+	"connect-mongo":""
   }
 }

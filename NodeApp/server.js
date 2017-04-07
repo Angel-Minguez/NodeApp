@@ -7,9 +7,12 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const sessions = require('express-session');
-const mongoStore = require('connect-mongo')(sessions); 	//Asociamos controlador y almacenamiento
-//Exportamos la instancia de nuestra aplicacion
+const mongoStore = require('connect-mongo')(sessions); 		//Asociamos controlador de sesiones y almacenamiento
+const mongoose = require('mongoose');						//Controlador de la base de datos
+const db = mongoose.connect('mongodb://127.0.0.1/nodeApp');	//Objeto de conexion
+//Exportamos la instancia de nuestra aplicacion y de la base de datos
 module.exports.app = app;
+module.exports.db = mongoose;
 //Caso de dependencia circular, router necesita que app haya sido exportada
 //Requerimos y añadimos nuestro router a la pila de middleware
 var router = require('./router/router.js');
@@ -20,11 +23,12 @@ app.use(bodyParser.urlencoded({extended:true}));    //Parseador de parametros co
 var sessionOptions = {};
 if (app.get('env') === 'developement') sessionOptions = {
                                                           secret: 'mi secreto', 
-                                                          store: new mongoStore({ url:'mongodb://127.0.0.1/nodeApp'}),
+                                                          store: /*new mongoStore({ url:'mongodb://127.0.0.1/nodeApp'})*/
+																 new mongoStore({ mongooseConnection: mongoose.connection }),
 							                              saveUninitialized: false, 
                                                           cookie: {
 								                                domain: '127.0.0.1', 
-								                                maxAge: 1000*60*60 }
+								                                maxAge: 1000*60*60 } //1 hora
 							                            };
 else sessionOptions = {
 						secret: 'mi secreto', 

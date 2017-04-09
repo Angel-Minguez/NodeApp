@@ -8,4 +8,5 @@ var userSchema = mongoose.Schema({
     userEmail: String
 })
 
-var user_model = mongoose.model('userModel', userSchema);
+var user = mongoose.model('user', userSchema);
+module.exports.user = user;

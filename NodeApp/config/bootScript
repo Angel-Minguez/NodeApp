@@ -6,6 +6,7 @@
 process.env.DEBUG = process.env.npm_package_config_debug || '*';
 process.env.PORT =  process.env.npm_package_config_port || 5000;
 process.env.NODE_ENV = process.env.npm_package_config_nodeEnv || "developement";
+process.env.DB = process.env.npm_package_config_db || "false"
 //Parseo de la linea de comando
 const commands = process.argv.slice(2, process.argv.lenght);
 commands.forEach((arg, index) => {
@@ -27,10 +28,19 @@ commands.forEach((arg, index) => {
 			commands.shift();
 			break;
 		}
+		case '--db': {
+			if(commands[index+1] === 'memory') process.env.DB = false;
+			else 
+				if (commands[index+1] === 'mongodb') process.env.DB = true;
+					else console.log('Opcion de entorno no valida, DB = false');
+			commands.shift();
+			break;				
+		}
 		case '--h': {
 			console.log('--port <number> : indica el numero de puerto')
 			console.log('--debug <file1,file2,...> : indica los modulos habilitados para debug')
 			console.log('--env <developement|production> : indica el entorno de ejecucion');
+			console.log('--db <memory|mongodb> : indica el uso o no de MongoDB');
 			process.exit(0);
 		}
 		default: {
@@ -42,4 +52,5 @@ commands.forEach((arg, index) => {
 //Carga del modulo debug y del modulo principal
 const debug = require('debug')('bootScript');
 console.log(`Servidor en modo ${process.env.NODE_ENV} corriendo en puerto ${process.env.PORT}`);
+console.log(`Base de datos: ${process.env.DB}`);
 require('../server.js');

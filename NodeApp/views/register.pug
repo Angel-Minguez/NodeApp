@@ -1,0 +1,22 @@
+﻿doctype html
+html
+    head
+        script(src ="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js")
+        script.
+            function sendRegisterPostRequest() {
+                $.post("/register_form", $("#registerForm").serialize(), (data) => $("#registerResult").html(data));
+            }
+    body
+        h1 Register
+        form(id="registerForm")
+            input(type="text" id="campo1" name="campo1" placeholder="User name")
+            input(type="text" id="campo2" name="campo2" placeholder="Password")
+            input(type="text" id="campo3" name="campo3" placeholder="email")
+            input(type="button" value="Register" onclick="sendRegisterPostRequest()")
+        br
+        p Register result:
+        span(id="registerResult")
+        p Session ID: #{sid}
+        p Username: #{userName}
+        p Password: #{password}
+        p email: #{email}

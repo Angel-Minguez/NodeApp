@@ -1,19 +1,20 @@
-<!DOCTYPE html>
+doctype html
 html
     head
         script(src ="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js")
         script.
             function sendLoginPostRequest() {
-                $.post("/form1", $("#loginForm").serialize(), (data)=> $("#loginResult").html(data)); 
+                $.post("/login_form", $("#loginForm").serialize(), (data)=> $("#loginResult").html(data)); 
             }
     body
-        h1 My awesome web
+        h1 Login
         form(id="loginForm")
             input(type="text" id="campo1" name="campo1" placeholder="User")
             input(type="text" id="campo2" name="campo2" placeholder="Password")
             input(type="button" value="Login" onclick="sendLoginPostRequest()")
         br
         a(href="/register") Sign up!
-        p(id="loginResult")
-        p!=sid
-        p!=sessionInfo
+        p Login result:
+        span(id="loginResult")
+        p Session ID: #{sid}
+        p Views: #{views}

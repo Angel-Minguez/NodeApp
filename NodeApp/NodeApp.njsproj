@@ -4,6 +4,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <Name>NodeApp</Name>
     <RootNamespace>NodeApp</RootNamespace>
+    <ScriptArguments>--db mongodb --port 11981</ScriptArguments>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -11,15 +12,16 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>85e98fc6-c91e-45b4-9c44-9dc1ea4d2c8b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>server.js</StartupFile>
+    <StartupFile>config/bootScript</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <NodejsPort>1337</NodejsPort>
-    <StartWebBrowser>true</StartWebBrowser>
+    <NodejsPort>
+    </NodejsPort>
+    <StartWebBrowser>True</StartWebBrowser>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,17 +36,24 @@
     <Compile Include="controller\controller.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="models\userModel.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="router\router.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
-    <Content Include="views\index.pug" />
+    <Content Include="views\login.pug" />
+    <Content Include="views\register.pug">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="config\" />
     <Folder Include="controller\" />
+    <Folder Include="models\" />
     <Folder Include="router\" />
     <Folder Include="views\" />
   </ItemGroup>

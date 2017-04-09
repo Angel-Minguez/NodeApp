@@ -7,9 +7,10 @@ var app = require('../server.js').app;
 var controller = require('../controller/controller.js');
 //Objeto router
 module.exports = function (req, res, next) {
-    app.get('/', controller.userLoginScreen);
-	app.get('/register', controller.userRegistration);
-	app.post('/registerEval', controller.userRegistrationEval)
-    app.post('/form1', controller.userLogin);
+    app.get('/', controller.index);
+    app.get('/login', controller.userLogin);
+    app.post('/login_form', controller.userLoginForm);
+	app.get('/register', controller.userRegister);
+    app.post('/register_form', controller.userRegisterForm);
 	next(); //Invocamos el siguiente elemento de la pila de middleware  
 }

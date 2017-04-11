@@ -10,7 +10,7 @@ module.exports.index = function (req, res, next) {
 module.exports.userLogin = function (req, res, next) {
 	if (req.session.views) req.session.views++;
     else req.session.views = 1;
-    res.render('login.pug', { views: req.session.views, sid: req.session.id });
+	res.render('login.pug', { views: req.session.views, sid: req.session.id });
 }
 //Logica de logueo
 module.exports.userLoginForm = function(req,res,next) {
@@ -30,10 +30,12 @@ module.exports.userLoginForm = function(req,res,next) {
         });
     });
     loginPromise.then((result) => {
-        res.end(result);
+        req.session.user=userInfo.userName; //Actualizamos sesion con el nombre de usuario
+		res.end(result);
         },
         (err) => {
-            res.end(err.message);
+            req.session.user='guest'; //Actualizamos sesion con tipo invitado
+			res.end(err.message);
         });
 }
 //Registro de usuario
@@ -87,4 +89,8 @@ module.exports.userRegisterForm = function (req, res, next) {
         });
         
     });
+}
+// Pagina Home del usuario
+module.exports.userHome = function(req, res, next){
+	res.render('home.pug');
 }

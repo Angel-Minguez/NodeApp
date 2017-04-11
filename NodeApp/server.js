@@ -49,9 +49,12 @@ app.use(router);
 app.use(bodyParser.json());                         //Parseador en formato json
 app.use(bodyParser.urlencoded({extended:true}));    //Parseador de parametros codificados en url
 app.use(sessions(sessionOptions));			        //Controlador de sesiones
+//Autenticacion con cookie en cada request
+var authRequest = require('./controller/authenticator.js')
+app.use(authRequest);
 //Servidor de archivos estaticos
 app.use('public', express.static('static'));
 //Seleccion del modulo de plantillas
-app.set('views', './views'); //Ruta a la carpeta de los templates
+app.set('views',  __dirname + '/views'); //Ruta a la carpeta de los templates
 app.set('view engine', 'pug'); //Motor que usaremos
 app.listen(process.env.PORT);

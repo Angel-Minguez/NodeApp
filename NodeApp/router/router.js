@@ -12,5 +12,6 @@ module.exports = function (req, res, next) {
     app.post('/login_form', controller.userLoginForm);
 	app.get('/register', controller.userRegister);
     app.post('/register_form', controller.userRegisterForm);
+	app.get('/home', controller.userHome);
 	next(); //Invocamos el siguiente elemento de la pila de middleware  
 }

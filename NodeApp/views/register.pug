@@ -11,6 +11,7 @@ html
                     $("#username").html('Username: '+userInfo.username);
                     $("#password").html('Password: '+userInfo.password);
                     $("#email").html('email: '+userInfo.email);
+                    $("#registerResult").html(userInfo.userStatus);
                 });
             }
     body
@@ -21,8 +22,9 @@ html
             input(type="text" id="campo3" name="campo3" placeholder="email")
             input(type="button" value="Register" onclick="sendRegisterPostRequest()")
         br
-        p Register result: 
-        span(id="registerResult")
+        ins Register result:
+        ins(id="registerResult")
+        br
         p(id="session" style="display:inline") SessionID:
         br
         p(id="username" style="display:inline") Username:

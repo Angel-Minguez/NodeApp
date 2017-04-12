@@ -33,6 +33,7 @@
     <Compile Include="config\bootScript">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="controller\authenticator.js" />
     <Compile Include="controller\controller.js">
       <SubType>Code</SubType>
     </Compile>
@@ -45,6 +46,7 @@
     <Compile Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="views\home.pug" />
     <Content Include="views\login.pug" />
     <Content Include="views\register.pug">
       <SubType>Code</SubType>

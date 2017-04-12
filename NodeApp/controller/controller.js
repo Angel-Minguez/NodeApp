@@ -5,7 +5,7 @@ var userModel = require('../models/userModel');             //Modelo de datos de
 const passwordHash = require('password-hash');              //Modulo de hasheo para passwords
 //Carga de la pagina de login
 module.exports.index = function (req, res, next) {
-    res.redirect('/login');
+    res.redirect('/home');
 }
 module.exports.userLogin = function (req, res, next) {
 	if (req.session.views) req.session.views++;

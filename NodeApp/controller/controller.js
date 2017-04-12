@@ -40,6 +40,7 @@ module.exports.userLoginForm = function(req,res,next) {
 }
 //Registro de usuario
 module.exports.userRegister = function (req,res,next) {
+	if (req.session.user!=='guest') res.redirect('/login');
 	res.render('register.pug', {});
 }
 module.exports.userRegisterForm = function (req, res, next) {
@@ -93,4 +94,9 @@ module.exports.userRegisterForm = function (req, res, next) {
 // Pagina Home del usuario
 module.exports.userHome = function(req, res, next){
 	res.render('home.pug');
+}
+// Funcion logout en /home
+module.exports.userLogout = function(req, res, next){
+	req.session.user='guest';
+	res.redirect('/login');
 }

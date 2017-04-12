@@ -51,9 +51,9 @@ app.use(bodyParser.urlencoded({extended:true}));    //Parseador de parametros co
 app.use(sessions(sessionOptions));			        //Controlador de sesiones
 //Autenticacion con cookie en cada request
 var authRequest = require('./controller/authenticator.js')
-app.use(authRequest);
+app.use('/home', authRequest);
 //Servidor de archivos estaticos
-app.use('public', express.static('static'));
+app.use('/favicon.ico', express.static(__dirname + '/static/favicon.ico'));
 //Seleccion del modulo de plantillas
 app.set('views',  __dirname + '/views'); //Ruta a la carpeta de los templates
 app.set('view engine', 'pug'); //Motor que usaremos

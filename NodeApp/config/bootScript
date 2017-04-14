@@ -1,7 +1,8 @@
 ﻿#!/usr/bin/env node
-/*****************************************************************************/
-/*						Script de inicio                                     */
-/*****************************************************************************/
+/***************************************************************************************************************/
+/*  Modulo: Script de arranque                                                                                 */
+/*  Autor:  Angel Minguez Burillo                                                                              */
+/***************************************************************************************************************/
 //valores por defecto de las variable de entorno
 process.env.DEBUG = process.env.npm_package_config_debug || '*';
 process.env.PORT =  process.env.npm_package_config_port || 5000;

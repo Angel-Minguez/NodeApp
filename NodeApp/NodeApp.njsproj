@@ -30,11 +30,30 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="config\bodyParser.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="config\bootScript">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="config\mongodb.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="config\session.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="controller\authenticator.js" />
-    <Compile Include="controller\controller.js">
+    <Compile Include="controller\home.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="controller\login.js" />
+    <Compile Include="controller\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="controller\logout.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="controller\register.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="models\userModel.js">
@@ -46,6 +65,7 @@
     <Compile Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="static\favicon.ico" />
     <Content Include="views\home.pug" />
     <Content Include="views\login.pug" />
     <Content Include="views\register.pug">
@@ -56,6 +76,7 @@
     <Folder Include="config\" />
     <Folder Include="controller\" />
     <Folder Include="models\" />
+    <Folder Include="static\" />
     <Folder Include="router\" />
     <Folder Include="views\" />
   </ItemGroup>

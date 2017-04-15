@@ -8,8 +8,6 @@ const passwordHash = require('password-hash');                                  
 var userModel = require('../models/userModel');                                         //Modelo de datos del usuario
  //Funcion de carga de la pagina de login
 module.exports.userLogin = function (req, res, next) {                                 
-    if (req.session.views) req.session.views++;                                         //Numero de visitas de la sesion
-    else req.session.views = 1;                                                         //Si es la primera vez inicializamos el contador
     res.render('login.pug', { views: req.session.views, sid: req.session.id });
 }
 //Logica de logueo y validacion de la informacion de login

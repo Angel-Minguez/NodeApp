@@ -13,7 +13,8 @@
     "port": 11981,
     "debug": "bootScript",
     "nodeEnv": "developement",
-    "db":  "true"
+    "db": "true",
+    "dbConnectionString": 'mongodb://127.0.0.1/nodeApp'
   },
   "repository": "https://github.com/Angel-Minguez/NodeApp",
   "dependencies": {

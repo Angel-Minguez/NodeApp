@@ -4,6 +4,6 @@
 /***************************************************************************************************************/
 'use strict'
 module.exports = function (req, res, next) {
-    res.render('home.pug');
+    res.render('home.pug', { user: req.session.user });
 }
 //Requerido por: /router/router.js

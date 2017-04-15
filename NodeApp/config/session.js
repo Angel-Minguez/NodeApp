@@ -11,6 +11,7 @@ let sessionOptions;
 if (app.get('env') === 'developement') sessionOptions = {
     secret: 'mi secreto',
     saveUninitialized: false,
+    resave: true,
     store: undefined,
     cookie: {
         domain: '127.0.0.1',    //Agregar a opciones

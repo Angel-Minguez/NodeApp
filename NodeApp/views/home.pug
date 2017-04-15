@@ -6,3 +6,11 @@ html
         h1 HOME
         form(method="get" action="/logout" id="logoutForm")
              input(type="submit" value="Logout")
+        p User:
+        span #{user}
+        hr
+        p My lists
+        hr
+        form(method="get", action="/listManagement" id="listManagementForm")
+            input(type="submit" value="Create list" name="createList")
+            input(type="submit" value="Create list" name="createList")

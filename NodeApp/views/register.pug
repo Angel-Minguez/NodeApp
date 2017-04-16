@@ -7,14 +7,16 @@ html
                 let userInfo;
                 $.post("/register_form", $("#registerForm").serialize(), (data) => {
                     userInfo=data;
+                    if(userInfo.userStatus==='USER_OK') $("#page_body").html(userInfo.html);
                     $("#session").html('SessionID: '+userInfo.session);
                     $("#username").html('Username: '+userInfo.username);
                     $("#password").html('Password: '+userInfo.password);
                     $("#email").html('email: '+userInfo.email);
+                    $("#date").html('Date: '+userInfo.time);
                     $("#registerResult").html(userInfo.userStatus);
                 });
             }
-    body
+    body(id="page_body")
         h1 Register
         form(id="registerForm")
             input(type="text" id="campo1" name="campo1" placeholder="User name")
@@ -24,11 +26,3 @@ html
         br
         ins Register result:
         ins(id="registerResult")
-        br
-        p(id="session" style="display:inline") SessionID:
-        br
-        p(id="username" style="display:inline") Username:
-        br
-        p(id="password" style="display:inline") Password:
-        br
-        p(id="email" style="display:inline") email: 

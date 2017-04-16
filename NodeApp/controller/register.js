@@ -8,7 +8,7 @@ const debug = require('debug')('register');                     //Modulo de mens
 const passwordHash = require('password-hash');                  //Modulo de hasheo para passwords
 //Funcion de control de /register
 module.exports.userRegister = function (req, res, next) {   
-    if (req.session.user !== 'guest') res.redirect('/login');   //Si el usuario esta logueado o no esta definido por algun motivo se le redireciona a la pagina de login
+    if (req.session.user !== 'guest') res.redirect('/login');    //Si el usuario esta logueado o no esta definido por algun motivo se le redireciona a la pagina de login
     res.render('register.pug', {});                             //Renderizamos la vista
 }
 //Funcion de control del formulario de registro
@@ -18,7 +18,9 @@ module.exports.userRegisterForm = function (req, res, next) {
         password: req.body.campo2,
         email: req.body.campo3,
         session: req.session.id,                                                                //Temporal, mostramos la id de la sesion
-        userStatus: 'undefined'                                                                 //Propiedad para responder con el exito o el tipo de error  
+        time: new Date().toUTCString(),                                                         //Fecha de la creacion
+        userStatus: 'undefined',                                                                //Propiedad para responder con el exito o el tipo de error  
+        html: 'undefined'
     };
     function validateUser(userInfo, callback) {                                                 //Funcion de validacion del usuario asincrona
         userModel.user.findOne({ userName: userInfo.username }, (err, _user) => {               //Buscamos el nombre por si estuviera repetido
@@ -44,7 +46,8 @@ module.exports.userRegisterForm = function (req, res, next) {
         var newUser = new userModel.user({                                                //Creamos un nuevo documento del modelo de usuario
             userName: userInfo.username,
             userPassword: userInfo.password,
-            userEmail: userInfo.email
+            userEmail: userInfo.email,
+            userCreationTime: userInfo.time
         });
         newUser.save((err) => {                                                           //Lo guardamos en la bd
             if (err) {                                                                    //En caso de error en el guardado
@@ -54,8 +57,9 @@ module.exports.userRegisterForm = function (req, res, next) {
             }
             else {                                                                        //En caso de exito en el guardado
                 debug('Usuario creado con exito');                                        //Mostramos el mensaje
-                userInfo.userStatus = 'Usuario creado con exito';                         //Actualizamos el objeto de usuario con la informacio del error
-                res.send(userInfo);                                                       //Enviamos el mensaje de error a la vista via respuesta al post AJAX
+                userInfo.userStatus = 'USER_OK';                                          //Actualizamos el objeto de usuario con la informacio del error          
+                res.render('registerResults.pug', (err, html) => userInfo.html=html);     //Enviamos codigo html con los detalles del registro al post AJAX
+                res.send(userInfo);
             }
         });
 

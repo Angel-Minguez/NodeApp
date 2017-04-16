@@ -10,6 +10,8 @@ module.exports = function (req, res, next) {        //Funcion de routeo de reque
     app.get('/register', require('../controller/register.js').userRegister);
     app.post('/register_form', require('../controller/register.js').userRegisterForm);
     app.get('/home', require('../controller/home.js'));
+    app.get('/home/createList', require('../controller/createList.js').createList);
+    app.post('/home/createList/addListItem_form', require('../controller/createList.js').addListItem);
     app.get('/logout', require('../controller/logout.js'));
 	next();    //Invocamos el siguiente elemento de la pila de middleware  
 }

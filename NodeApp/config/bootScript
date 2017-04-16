@@ -5,9 +5,9 @@
 /***************************************************************************************************************/
 //valores por defecto de las variable de entorno
 process.env.DEBUG = process.env.npm_package_config_debug || '*';
-process.env.PORT =  process.env.npm_package_config_port || 5000;
+process.env.PORT =  process.env.npm_package_config_port || 11981;
 process.env.NODE_ENV = process.env.npm_package_config_nodeEnv || 'developement';
-process.env.DB = process.env.npm_package_config_db || "false"
+process.env.DB = process.env.npm_package_config_db || "true"
 process.env.DB_URL = process.env.npm_package_dbConnectionString || 'mongodb://127.0.0.1/nodeApp'
 //Parseo de la linea de comando
 const commands = process.argv.slice(2, process.argv.lenght);

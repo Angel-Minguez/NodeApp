@@ -7,8 +7,9 @@ const debug = require('debug')('login');                                        
 const passwordHash = require('password-hash');                                          //Modulo de hasheo para passwords
 var userModel = require('../models/userModel');                                         //Modelo de datos del usuario
  //Funcion de carga de la pagina de login
-module.exports.userLogin = function (req, res, next) {                                 
-    res.render('login.pug', { views: req.session.views, sid: req.session.id });
+module.exports.userLogin = function (req, res, next) {
+    if (req.session.user === 'guest') res.render('login.pug', { views: req.session.views, sid: req.session.id, user: req.session.user });
+    else res.redirect('/home');
 }
 //Logica de logueo y validacion de la informacion de login
 module.exports.userLoginForm = function (req, res, next) {                              //Funcion controladora del form de login
@@ -20,7 +21,7 @@ module.exports.userLoginForm = function (req, res, next) {                      
                 reject(Error('Error en user.findOne'));                                 //Si existe error rechazamos la promesa
             }
             else if (_user) {                                                                       //Si encontramos al nombre de usuario en la bd
-                if (passwordHash.verify(userInfo.password, _user.userPassword)) resolve('LoginOK'); //Validamos el hash de su contraseña
+                if (passwordHash.verify(userInfo.password, _user.userPassword)) resolve('LOGIN_OK');//Validamos el hash de su contraseña
                 else reject(Error('Password invalida'));                                            //Si no coincide rechazamos la promesa
             }
         });

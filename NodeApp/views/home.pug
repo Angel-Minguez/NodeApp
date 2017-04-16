@@ -2,6 +2,10 @@
 html
     head
         script(src ="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js")
+        script.
+            function createList() {
+                window.location = "/home/createList";
+            }
     body
         h1 HOME
         form(method="get" action="/logout" id="logoutForm")
@@ -11,6 +15,6 @@ html
         hr
         p My lists
         hr
-        form(method="get", action="/listManagement" id="listManagementForm")
-            input(type="submit" value="Create list" name="createList")
-            input(type="submit" value="Create list" name="createList")
+        form(id="listManagementForm")
+            input(type="button" value="Create list" onclick="createList()")
+            input(type="button" value="Delete list")

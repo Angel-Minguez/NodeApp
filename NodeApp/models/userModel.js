@@ -7,7 +7,8 @@ var mongoose = require('../config/mongodb.js');     //Cargamos el modulo de conf
 var userSchema = mongoose.Schema({                  //Esquema del documento usuario
     userName: String,                               //Nombre de usuario
     userPassword: String,                           //Hash de password
-    userEmail: String                               //Email
+    userEmail: String,                              //Email
+    userCreationTime: String                        //Fecha de creacion
 });
 var user = mongoose.model('user', userSchema);      //Creamos el modelo a partir de esquema
 module.exports.user = user;                         //Exportamos el modelo

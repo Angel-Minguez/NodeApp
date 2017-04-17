@@ -9,7 +9,6 @@ var listSchema = mongoose.Schema({                  //Esquema del documento usua
     user_id: mongoose.Schema.Types.ObjectId,                 //Tipo ID, _id del usuario
     listItems: [mongoose.Schema.Types.Mixed],                //Elementos de la lista
     listCreationTime: String,                       //Fecha de la creacion de la lista
-    listNumber: Number                              //Numero de la lista
 });
 var list = mongoose.model('list', listSchema);      //Creamos el modelo a partir de esquema
 module.exports.list = list;                         //Exportamos el modelo

@@ -47,7 +47,8 @@ module.exports.userRegisterForm = function (req, res, next) {
             userName: userInfo.username,
             userPassword: userInfo.password,
             userEmail: userInfo.email,
-            userCreationTime: userInfo.time
+            userCreationTime: userInfo.time,
+			numberOfLists: 0
         });
         newUser.save((err) => {                                                           //Lo guardamos en la bd
             if (err) {                                                                    //En caso de error en el guardado

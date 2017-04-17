@@ -14,7 +14,7 @@
     "debug": "bootScript",
     "nodeEnv": "developement",
     "db": "true",
-    "dbConnectionString": 'mongodb://127.0.0.1/nodeApp'
+    "dbConnectionString": "mongodb://127.0.0.1/nodeApp"
   },
   "repository": "https://github.com/Angel-Minguez/NodeApp",
   "dependencies": {

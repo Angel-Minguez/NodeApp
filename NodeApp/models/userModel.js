@@ -8,7 +8,8 @@ var userSchema = mongoose.Schema({                  //Esquema del documento usua
     userName: String,                               //Nombre de usuario
     userPassword: String,                           //Hash de password
     userEmail: String,                              //Email
-    userCreationTime: String                        //Fecha de creacion
+    userCreationTime: String,                       //Fecha de creacion
+	numberOfLists: Number
 });
 var user = mongoose.model('user', userSchema);      //Creamos el modelo a partir de esquema
 module.exports.user = user;                         //Exportamos el modelo

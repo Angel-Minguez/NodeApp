@@ -9,10 +9,18 @@ html
                     $("#listContainer").append(data);
             });
         }
+        function saveList() {
+            $.get("/home/createList/saveList_form", (data) => {
+                if(data==='SAVE_OK') location.href = "/home";
+                else $("#H1").html('Error al guardar la lista');
+            });
+        }
   body
-    h1 List Creation
+    h1(id="H1") List Creation
     div(id="listContainer")
     form(id="listItemForm" method="post" )
         input(type= "text" name ="campo1" placeholder="List title")
         input(type="reset" value ="Reset")
         input(type="button" value ="Set Title" onclick="postLine()")
+    form(id="listDone")
+        input(type="button" value ="Done" onclick="saveList()")

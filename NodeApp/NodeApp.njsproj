@@ -43,6 +43,9 @@
     <Compile Include="config\session.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="config\staticServer.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="controller\authenticator.js" />
     <Compile Include="controller\createList.js">
       <SubType>Code</SubType>
@@ -72,7 +75,11 @@
     <Compile Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="static\css\index.css">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="static\favicon.ico" />
+    <Content Include="static\img\cabecera.jpg" />
     <Content Include="views\createList.pug">
       <SubType>Code</SubType>
     </Content>
@@ -94,6 +101,8 @@
     <Folder Include="models\" />
     <Folder Include="static\" />
     <Folder Include="router\" />
+    <Folder Include="static\css\" />
+    <Folder Include="static\img\" />
     <Folder Include="views\" />
   </ItemGroup>
   <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->

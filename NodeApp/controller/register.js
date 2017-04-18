@@ -24,14 +24,14 @@ module.exports.userRegisterForm = function (req, res, next) {
     };
     function validateUser(userInfo, callback) {                                                 //Funcion de validacion del usuario asincrona
         userModel.user.findOne({ userName: userInfo.username }, (err, _user) => {               //Buscamos el nombre por si estuviera repetido
-            if (err) debug('Error en user.findOne userName: ', userInfo.username);              //Error en la busqueda en la bd
+            if (err) debug('ERROR en user.findOne userName: ', userInfo.username);              //Error en la busqueda en la bd
             else if (_user) {                                                                   //Si el nombre ya existe en la bd
                 debug('ERROR: usuario duplicado:', _user);                                      //Mostramos el error 
                 userInfo.userStatus = 'Nombre de usuario en uso';                               //Actualizamos el objeto de usuario con la informacio del error              
                 res.send(userInfo);                                                             //Enviamos el mensaje de error a la vista via respuesta al post AJAX
             } else {                                                                            //Si el nombre de usuario no existe
                userModel.user.findOne({ userEmail: userInfo.email }, (err, _user) => {          //Buscamos si el email esta duplicado
-                    if (err) debug('Error en user.findOne useremail: ', userInfo.email);        //Error en la busqueda en la bd
+                    if (err) debug('ERROR en user.findOne useremail: ', userInfo.email);        //Error en la busqueda en la bd
                     else if (_user) {                                                           //Si el email esta duplicado
                         debug('ERROR: email duplicado:', _user);                                //Mostramos el error
                         userInfo.userStatus = 'Email de usuario en uso';                        //Actualizamos el objeto de usuario con la informacio del error  
@@ -52,7 +52,7 @@ module.exports.userRegisterForm = function (req, res, next) {
         });
         newUser.save((err) => {                                                           //Lo guardamos en la bd
             if (err) {                                                                    //En caso de error en el guardado
-                debug('Error almacenando usuario');                                       //Mostramos el mensaje
+                debug('ERROR almacenando usuario');                                       //Mostramos el mensaje
                 userInfo.userStatus = 'Error almacenando informacion de usuario';         //Actualizamos el objeto de usuario con la informacio del error
                 res.send(userInfo);                                                       //Enviamos el mensaje de error a la vista via respuesta al post AJAX
             }

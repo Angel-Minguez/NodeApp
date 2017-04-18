@@ -6,8 +6,8 @@
 var mongoose = require('../config/mongodb.js');     //Cargamos el modulo de configuracion de la base de datos
 var listSchema = mongoose.Schema({                  //Esquema del documento usuario
     userName: String,                               //Nombre de usuario
-    user_id: mongoose.Schema.Types.ObjectId,                 //Tipo ID, _id del usuario
-    listItems: [mongoose.Schema.Types.Mixed],                //Elementos de la lista
+    user_id: mongoose.Schema.Types.ObjectId,        //Tipo ID, _id del usuario
+    listItems: [mongoose.Schema.Types.Mixed],       //Elementos de la lista
     listCreationTime: String,                       //Fecha de la creacion de la lista
 });
 var list = mongoose.model('list', listSchema);      //Creamos el modelo a partir de esquema

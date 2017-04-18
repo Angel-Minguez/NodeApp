@@ -1,0 +1,16 @@
+﻿html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+#cabecera {
+    height: 50%;
+    width: 100%;
+    text-align:center;
+}
+.btn-primary {
+    background-color:yellowgreen;
+}
+.btn {
+    border-radius:0px;
+}

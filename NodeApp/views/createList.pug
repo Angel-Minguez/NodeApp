@@ -14,7 +14,7 @@ html
         function postTitle() {
             $.post("/home/createList/addListTitle_form", $("#listTitleForm").serialize(), (data) => {
                     $("#listContainer").append(data);
-                    $("#listTitleForm").attr("disabled", true);
+                    $("#titleButton").attr("disabled", true);
             });
         }
         function saveList() {
@@ -29,7 +29,7 @@ html
     form(id="listTitleForm" method="post" )
         input(type= "text" name ="campo1" placeholder="List title")
         input(type="reset" value ="Reset")
-        input(type="button" value ="Set Title" onclick="postTitle()")
+        input(type="button" id="titleButton" value ="Set Title" onclick="postTitle()")
     form(id="listItemForm" method="post" )
         input(type= "text" name ="campo1" placeholder="List item")
         input(type="reset" value ="Reset")

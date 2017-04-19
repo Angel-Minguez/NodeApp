@@ -10,7 +10,8 @@ html
         nav(class="navbar navbar-default")
             div(class="container-fluid")
                 div(class="navbar-header")
-                    a(class="navbar-brand" id="brand" href="#") toDO.list
+                    a(class="navbar-brand" id="brand" href="#")
+                        img(id="navbarimg" src="/static/img/logoSmall.png" alt="toDO.list")
                 ul(class="nav navbar-nav")
                     li
                         a(href="/home" id="navbar-item") Home
@@ -18,8 +19,10 @@ html
                         a(href="#" id="navbar-item") About
                 ul(class="nav navbar-nav navbar-right")               
                     li
-                        a(id="navbar-item") User: #{user}
-        div(id="webLogo") toDO.list
+                        a(id="navbar-item") 
+                            b #{user}
+        div(id="webLogo")
+            img(src="/static/img/logoBig.png" alt="toDO.list")
         div(id="indexButtons")
             a(id="loginLink" class="btn btn-primary" href="/login") Login
             a(id="registerLink" class="btn btn-primary" href="/register") Register

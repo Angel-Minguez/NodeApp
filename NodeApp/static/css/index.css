@@ -1,4 +1,9 @@
-﻿html, body {
+﻿/*Animaciones*/
+@keyframes onHoverChangeColors {
+    from { background-color: yellowgreen;}
+    to { background-color: #71bb20;}
+}
+html, body {
     height: 100%;
     width: 100%;
     margin: 0;
@@ -14,15 +19,18 @@
 	text-align:center;
 }
 .btn-primary {
-    background-color:yellowgreen;
-	border-color:yellowgreen;
-	width:15%;
-	margin:5%;
+    background-color: yellowgreen;
+    border-color: yellowgreen;
+    width: 15%;
+    margin: 5%;
+    border-radius:0px;
 }
 .btn-primary:hover {
-	background-color:#71bb20;
-	border-color:yellowgreen;
-}
+    background-color: #71bb20;
+    border-color: yellowgreen;
+    animation-name: onHoverChangeColors;
+    animation-duration: 1s;
+    }
 .btn-primary:active:focus {
 	background-color:#71bb20;
 	border-color:yellowgreen;
@@ -36,7 +44,16 @@
 	color: white;
 	border: yellowgreen;
 }
-.navbar-nav>li>a#navbar-item:hover{
-	background-color:#71bb20;
-	border-color:yellowgreen;
+#brand.navbar-brand {
+    padding-top:0px;
+}
+.navbar-nav > li > a#navbar-item:hover {
+     background-color: #71bb20;
+     border-color: yellowgreen;
+     animation-name: onHoverChangeColors;
+     animation-duration: 1s;
+}
+#navbarimg {
+    width:50px;
+    height: auto;
 }

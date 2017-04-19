@@ -14,11 +14,20 @@ module.exports.createList = function (req, res, next) {
             else module.exports.list = new listModel.list({			                //Creamos un objeto temporal list donde ir almacenando
 				userName: req.session.user,                                         //Nombre de usuario
                 user_id: _user._id,                                                 //ID del usuario
+                listTitle: 'undefined',                                             //Titulo de la lista
                 listItems: [],                                                      //Elementos de la lista
                 listCreationTime: 'undefined'                                       //Fecha de la creacion de la lista
                 });    
     });
     res.render('createList.pug', { user: req.session.user });		                //Presentamos la pagina de creacion
+}
+//Funcion para añadir titulo a la lista
+module.exports.addListTitle = function (req, res) {   							    //Si el item no es una cadena vacia
+    if (req.body.campo1) module.exports.list.listTitle=req.body.campo1	            //La añadimos a nuestro objeto lista
+    let listItemHtml = '<div id="list_item"> TITLE' + req.body.campo1 + '</div>';   //HTML que añadimos a la pagina
+    debug(module.exports.list.userName);
+    debug(module.exports.list.listItems);
+    res.send(listItemHtml);											                //Actualizamos la lista
 }
 //Funcion para añadir nuevos elementos a la lista
 module.exports.addListItem = function (req, res) {   							    //Si el item no es una cadena vacia

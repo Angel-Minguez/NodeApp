@@ -32,7 +32,7 @@ module.exports.getTreeData = function (req, res) {
                         treeNode.push({ text: currentElem._doc.listTitle });
                         _listResults.splice(_listResults.indexOf(currentElem), 1);
                     }
-
+                    treeNode.push({ text: 'Nueva lista', tags: ["<a href=\"/home/createList?cat=" + currentCat + "\">Create List</a>"] });
                     treeData.push({ text: currentCat, nodes: treeNode });
                     treeNode = [];
 

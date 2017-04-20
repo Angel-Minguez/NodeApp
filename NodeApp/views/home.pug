@@ -8,36 +8,37 @@ html
         link(href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet")
         link(href="./node_modules/bootstrap-treeview/public/css/bootstrap-treeview.css" rel="stylesheet")
         script.
-            $(document).ready(function() {
-                $.get("/home/getTreeData", {r: "treeData" }, (treeData) => {
-                    treeData.push ({text: 'Nueva categoria', href:"/home/createList", tags:["<a type=\"Button\" data-toggle=\"modal\" data-target=\"#myModal\">Crear</a>"]});
-                    $("#tree").treeview({data:treeData, enableLinks:true, showTags:true});
-                });
-            });
+            $(document).ready(updateTreeView());
+            function updateTreeView(treeData) {
+                if(!treeData) {
+                    $.get("/home/getTreeData", (treeData) => {
+                        treeData.push ({text: 'Nueva categoria', href:"/home/createList", 
+                                        tags:["<a type=\"Button\" data-toggle=\"modal\" data-target=\"#myModal\">Crear</a>"]});
+                        $("#tree").treeview({data:treeData, enableLinks:true, showTags:true});
+                    });
+                }
+                else $("#tree").treeview({data:treeData, enableLinks:true, showTags:true});
+            }
             function createCat() {
-                $.get("/home/getTreeData", {catName: ($("#catName").serialize()).slice(7)}, (treeData) => {
-                    $("#tree").treeview({data:treeData, enableLinks:true, showTags:true});
+                $.get("/home/getTreeData", {catName: $("#catName").val()}, (treeData) => {
+                    updateTreeView(treeData);
                 });
             }
     body
         h1 HOME
+        p User:
+            span #{user}
         form(method="get" action="/logout" id="logoutForm")
              input(type="submit" value="Logout")
-        p User:
-        span #{user}
-        hr
-        div(id="tree")
-        p #{myLists}
-        hr
-        form(id="listManagementForm")
-            input(type="button" value="Create list" onclick="createList()")
-            input(type="button" value="Delete list")
-            div(class="modal fade" id="myModal" role="dialog")
-                div(class="modal-dialog modal-sm")
-                    div(class="modal-content")
-                        div(class="modal-header")
-                            button(type="button" class="close" data-dismiss="modal") &times;
-                            h4(class="modal-title") New category
-                        div(class="modal-body")
-                                input(type="text" id="catName" placeholder="Category name" name="campo1")
-                                input(type="button" value="Ok" data-dismiss="modal" onclick="createCat()")
+        br
+        div(id="tree" style="width:30%; float:left;")
+        div(id="listView" style="width:70%;")
+        div(class="modal fade" id="myModal" role="dialog")
+            div(class="modal-dialog modal-sm")
+                div(class="modal-content")
+                    div(class="modal-header")
+                        button(type="button" class="close" data-dismiss="modal") &times;
+                        h4(class="modal-title") New category
+                    div(class="modal-body")
+                        input(type="text" id="catName" placeholder="Category name" name="campo1")
+                        input(type="button" value="Ok" data-dismiss="modal" onclick="createCat()")

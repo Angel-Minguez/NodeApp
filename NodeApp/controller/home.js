@@ -28,11 +28,6 @@ module.exports.getTreeData = function (req, res) {
                     treeData.push({ text: currentCat, nodes: treeNode });
                     treeNode = [];
                 }
-                if (req.query.catName) treeData.push({
-                    text: req.query.catName, 
-					nodes: [{ text: 'Nueva lista', 
-							  tags: ["<a href=\"/home/createList?cat=" + req.query.catName + "\">Create List</a>"]}]
-                });
                 res.send(treeData);
             }
         });

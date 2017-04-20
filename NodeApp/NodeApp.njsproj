@@ -50,6 +50,9 @@
     <Compile Include="controller\createList.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="controller\deleteList.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="controller\home.js">
       <SubType>Code</SubType>
     </Compile>

@@ -9,20 +9,28 @@ html
         link(href="./node_modules/bootstrap-treeview/public/css/bootstrap-treeview.css" rel="stylesheet")
         script.
             $(document).ready(updateTreeView());
-            function updateTreeView(treeData) {
-                if(!treeData) {
-                    $.get("/home/getTreeData", (treeData) => {
-                        treeData.push ({text: 'Nueva categoria', href:"/home/createList", 
-                                        tags:["<a type=\"Button\" data-toggle=\"modal\" data-target=\"#myModal\">Crear</a>"]});
-                        $("#tree").treeview({data:treeData, enableLinks:true, showTags:true});
-                    });
-                }
-                else $("#tree").treeview({data:treeData, enableLinks:true, showTags:true});
+            function updateTreeView(newCat) {
+                var treeData;
+                $.get("/home/getTreeData", (data) => { 
+                    treeData=data
+                    if(newCat) {
+                        treeData.push({
+                            text: newCat, nodes: [{  text: 'Nueva lista', 
+                            tags: ["<a href=\"/home/createList?cat=" + newCat + "\">Create List</a>"]}]
+                        });
+                    }
+                    treeData.push ({
+                        text: 'Nueva categoria', href:"/home/createList", 
+                        tags:["<a data-toggle=\"modal\" data-target=\"#myModal\">Crear</a>"]
+                    }); 
+                    $("#tree").treeview({data:treeData, enableLinks:true, showTags:true, onNodeSelected:onNodeSelected});                
+                });
+            }
+            function onNodeSelected() {
+                alert();
             }
             function createCat() {
-                $.get("/home/getTreeData", {catName: $("#catName").val()}, (treeData) => {
-                    updateTreeView(treeData);
-                });
+                updateTreeView($("#catName").val());
             }
     body
         h1 HOME

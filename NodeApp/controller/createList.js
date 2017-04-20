@@ -14,6 +14,7 @@ module.exports.createList = function (req, res, next) {
             else module.exports.list = new listModel.list({			                //Creamos un objeto temporal list donde ir almacenando
 				userName: req.session.user,                                         //Nombre de usuario
                 user_id: _user._id,                                                 //ID del usuario
+                listCat: req.query.cat,
                 listTitle: 'undefined',                                             //Titulo de la lista
                 listItems: [],                                                      //Elementos de la lista
                 listCreationTime: 'undefined'                                       //Fecha de la creacion de la lista

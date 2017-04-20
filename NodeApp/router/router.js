@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {        //Funcion de routeo de reque
     app.get ('/register', require('../controller/register.js').userRegister);
     app.post('/register_form', require('../controller/register.js').userRegisterForm);
     app.get ('/home', require('../controller/home.js').home);
-    app.post ('/home/createCatForm', require('../controller/home.js').createCat);
+    app.get ('/home/getTreeData', require('../controller/home.js').getTreeData);
 	app.get ('/home/createList', require('../controller/createList.js').createList);
     app.post('/home/createList/addListTitle_form', require('../controller/createList.js').addListTitle);
     app.post('/home/createList/addListItem_form', require('../controller/createList.js').addListItem);

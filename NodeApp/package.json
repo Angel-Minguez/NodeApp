@@ -27,6 +27,6 @@
     "mongoose": "^4.9.3",
     "password-hash": "^1.2.2",
     "bootstrap": "^3.3.7",
-	"bootstrap-treeview":""
+	"bootstrap-treeview": "^1.2.0"
   }
 }

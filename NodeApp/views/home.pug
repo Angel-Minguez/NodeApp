@@ -3,22 +3,20 @@ html
     head
         title toDO.list
         script(src ="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js")
+        script(src="./node_modules/bootstrap/dist/js/bootstrap.min.js")
+        script(src="./node_modules/bootstrap-treeview/public/js/bootstrap-treeview.js")
         link(href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet")
         link(href="./node_modules/bootstrap-treeview/public/css/bootstrap-treeview.css" rel="stylesheet")
-        script(src="./node_modules/bootstrap/dist/js/bootstrap.min.js")
-        script(src="./node_modules/bootstrap-treeview/public/js/bootstrap-treeview.js") 
         script.
-            function createList() {
-                window.location = "/home/createList";
-            }
             $(document).ready(function() {
-                var treeData =[{text: 'Nueva categoria', 
-                                       href:"/home/createList", 
-                                       tags:["<button type=\"Button\" data-toggle=\"modal\" data-target=\"#myModal\">Crear</button>"]}];
-                $("#tree").treeview({data:treeData, enableLinks:true, showTags:true});
+                $.get("/home/getTreeData", {r: "treeData" }, (treeData) => {
+                    treeData.push ({text: 'Nueva categoria', href:"/home/createList", tags:["<a type=\"Button\" data-toggle=\"modal\" data-target=\"#myModal\">Crear</a>"]});
+                    $("#tree").treeview({data:treeData, enableLinks:true, showTags:true});
+                });
             });
             function createCat() {
-                $.post("/home/createCatForm", $("#catName").serialize(), (data) => {
+                $.get("/home/getTreeData", {catName: ($("#catName").serialize()).slice(7)}, (treeData) => {
+                    $("#tree").treeview({data:treeData, enableLinks:true, showTags:true});
                 });
             }
     body
@@ -42,4 +40,4 @@ html
                             h4(class="modal-title") New category
                         div(class="modal-body")
                                 input(type="text" id="catName" placeholder="Category name" name="campo1")
-                                input(type="button" value="Ok" onclick="createCat()")
+                                input(type="button" value="Ok" data-dismiss="modal" onclick="createCat()")

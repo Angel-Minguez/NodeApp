@@ -26,8 +26,8 @@ html
                     $("#tree").treeview({data:treeData, enableLinks:true, showTags:true, onNodeSelected:onNodeSelected});                
                 });
             }
-            function onNodeSelected() {
-                alert();
+            function onNodeSelected(event, node) {
+                console.log(event, node);
             }
             function createCat() {
                 updateTreeView($("#catName").val());

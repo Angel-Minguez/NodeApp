@@ -19,14 +19,13 @@ module.exports.getTreeData = function (req, res) {
                     var currentCat = _listResults[0]._doc.listCat;
                     var currentElem = 'undefined';
                     while (currentElem = _listResults.find((elem) => elem._doc.listCat === currentCat)) {
-                        treeNode.push({ text: currentElem._doc.listTitle,
-										href: '/home/viewList?id=' + currentElem._doc._id,
+                        treeNode.push({ text: currentElem._doc.listTitle, id: currentElem._doc._id,
 										tags: ["<a href=\"/home/deleteList?listId="+currentElem._doc._id+"\">Delete List</a>"]});
                         _listResults.splice(_listResults.indexOf(currentElem), 1);
                     }
                     treeNode.push({ text: 'Nueva lista',
 									tags: ["<a href=\"/home/createList?cat=" + currentCat + "\">Create List</a>"]});										   
-                    treeData.push({ text: currentCat, href: '/home/viewCat?cat=' + currentCat , nodes: treeNode });
+                    treeData.push({ text: currentCat, nodes: treeNode });
                     treeNode = [];
                 }
                 res.send(treeData);
@@ -35,11 +34,14 @@ module.exports.getTreeData = function (req, res) {
 }
 module.exports.viewList = function (req, res, next) {
 	let viewHtml;
-	listModel.list.findOne({ _id: req.query.id}, (err, _list){
+	console.log(req.query.id);
+	listModel.list.findOne({ _id: req.query.id}, (err, _list)=>{
 		if(err) debug('ERROR en listModel.find', req.query.id);
 		else if(!_list) debug('ERROR lista no encontrada', req.query.id);
 		else res.render('viewList.pug', {data: _list.listItems}, (err, html) => {
+			if(err) console.log(err);
 			viewHtml = html;
+			console.log(viewHtml);
 			res.send(viewHtml);
 		});
 	});

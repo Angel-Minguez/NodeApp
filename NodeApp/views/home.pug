@@ -27,7 +27,9 @@ html
                 });
             }
             function onNodeSelected(event, node) {
-                console.log(event, node);
+                $.get('/home/viewList?id='+ node.id , (data)=>{
+                    $("#listView").html(data.toString());
+                });
             }
             function createCat() {
                 updateTreeView($("#catName").val());

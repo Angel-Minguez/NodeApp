@@ -15,7 +15,7 @@ html
                     treeData=data
                     if(newCat) {
                         treeData.push({
-                            text: newCat, nodes: [{  text: 'Nueva lista', 
+                            text: newCat, href: '/home/viewList?cat=' + newCat, nodes: [{  text: 'Nueva lista', 
                             tags: ["<a href=\"/home/createList?cat=" + newCat + "\">Create List</a>"]}]
                         });
                     }
@@ -40,7 +40,7 @@ html
              input(type="submit" value="Logout")
         br
         div(id="tree" style="width:30%; float:left;")
-        div(id="listView" style="width:70%;")
+        div(id="listView" style="width:70%; float:left")
         div(class="modal fade" id="myModal" role="dialog")
             div(class="modal-dialog modal-sm")
                 div(class="modal-content")

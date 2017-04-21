@@ -34,14 +34,12 @@ module.exports.getTreeData = function (req, res) {
 }
 module.exports.viewList = function (req, res, next) {
 	let viewHtml;
-	console.log(req.query.id);
 	listModel.list.findOne({ _id: req.query.id}, (err, _list)=>{
 		if(err) debug('ERROR en listModel.find', req.query.id);
 		else if(!_list) debug('ERROR lista no encontrada', req.query.id);
 		else res.render('viewList.pug', {data: _list.listItems}, (err, html) => {
 			if(err) console.log(err);
 			viewHtml = html;
-			console.log(viewHtml);
 			res.send(viewHtml);
 		});
 	});

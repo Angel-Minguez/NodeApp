@@ -8,7 +8,8 @@ var listSchema = mongoose.Schema({                  //Esquema del documento usua
     userName: String,                               //Nombre de usuario
     user_id: mongoose.Schema.Types.ObjectId,        //Tipo ID, _id del usuario
     listCat: String,								//Categoria a la que pertenece la lista						
-	listTitle: String,                              //Titulo de la lista
+    listTitle: String,                              //Titulo de la lista
+    listCreationTitle: String,                      //Titulo con el que la lista fue creada                    
     listItems: [mongoose.Schema.Types.Mixed],       //Elementos de la lista
     listCreationTime: String,                       //Fecha de la creacion de la lista
 });

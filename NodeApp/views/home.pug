@@ -27,7 +27,7 @@ html
                 });
             }
             function onNodeSelected(event, node) {
-                $.get('/home/viewList?id='+ node.id , (data)=>{
+                $.post("/home/viewList", {parent : $("#tree").treeview("getParent", node), name: node.text, id: node.id} , (data)=>{
                     $("#listView").html(data.toString());
                 });
             }

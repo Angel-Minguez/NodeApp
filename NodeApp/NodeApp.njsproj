@@ -81,14 +81,17 @@
     <Content Include="static\css\index.css">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="static\css\bootstrap.css" />
     <Content Include="static\favicon.ico" />
-    <Content Include="static\img\logoBig.png" />
-    <Content Include="static\img\logoSmall.png" />
+    <Content Include="static\img\indexBackground.jpg" />
     <Content Include="views\createList.pug">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\home.pug" />
     <Content Include="views\index.pug">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="views\listView.pug">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\login.pug" />

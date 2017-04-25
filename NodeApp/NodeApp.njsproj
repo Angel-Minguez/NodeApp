@@ -84,6 +84,8 @@
     <Content Include="static\css\bootstrap.css" />
     <Content Include="static\favicon.ico" />
     <Content Include="static\img\indexBackground.jpg" />
+    <Content Include="static\img\info1.png" />
+    <Content Include="static\img\logoSmall.png" />
     <Content Include="views\createList.pug">
       <SubType>Code</SubType>
     </Content>

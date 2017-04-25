@@ -2,11 +2,14 @@ doctype html
 html
     head
         title toDO.list - Login
+        meta(name="viewport" content="width=device-width, initial-scale=1")
         script(src ="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js")
         link(href="./static/css/theme.min.css" rel="stylesheet")
         link(href="./static/css/login.css" rel="stylesheet")
         script.
             function sendLoginPostRequest() {
+                if(!$("#username").val()) { $("#username").focus(); return; }
+                if(!$("#password").val()) { $("#password").focus(); return; }
                 $.post("/login_form", $("#loginForm").serialize(), (data) => { 
                     if(data==='LOGIN_OK') window.location ="/home";
                     $("#loginResult").html(data); 
@@ -28,18 +31,18 @@ html
                             li
                                 a(id="navbar-item") 
                                     b #{user}
-        div(class="container-fluid")
             div(class="row" id="loginBox")
-                form(class="form-group" id="loginForm")
-                    div(class="row" id="loginBoxRow")
-                        div(class="col-xs-3 col-xs-offset-4")
-                            label(for="campo1") User:
-                            input(class="form-control" type="text" id="campo1" name="campo1" placeholder="User")
-                    div(class="row" id="loginBoxRow")
-                        div(class="col-xs-3 col-xs-offset-4")
-                            label(for="campo2") Password:
-                            input(class="form-control" type="password" id="campo2" name="campo2" placeholder="Password")
-                    div(class="row" id="loginBoxRow")
-                        div(class="col-xs-3 col-xs-offset-4")
-                            input(class="btn btn-primary btn-block" type="button" value="Login" onclick="sendLoginPostRequest()")
-                            a(class="btn btn-primary btn-block" href="/register") Register
+                div(class="col-xs-12")
+                    form(class="form-group" id="loginForm")
+                        div(class="row" id="loginBoxRow")
+                            div(class="col-xs-3 col-xs-offset-4")
+                                label(for="campo1") User:
+                                input(class="form-control" type="text" id="username" name="campo1" placeholder="User")
+                        div(class="row" id="loginBoxRow")
+                            div(class="col-xs-3 col-xs-offset-4")
+                                label(for="campo2") Password:
+                                input(class="form-control" type="password" id="password" name="campo2" placeholder="Password")
+                        div(class="row" id="loginBoxRow")
+                            div(class="col-xs-3 col-xs-offset-4")
+                                input(class="btn btn-primary btn-block" type="button" value="Login" onclick="sendLoginPostRequest()")
+                                a(class="btn btn-primary btn-block" href="/register") Register

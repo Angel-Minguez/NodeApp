@@ -26,7 +26,7 @@ module.exports.getTreeData = function (req, res) {
 										    tags: ["<a href=\"/home/deleteList?listId="+currentElem._doc._id+"\">Delete List</a>"]});   //Añadimos el enlace de borrado en una tag
                             _listResults.splice(_listResults.indexOf(currentElem), 1);                                                  //Eliminamos el elemento del array de resultados
                         }
-                        treeNode.push({ text: 'Nueva lista',                                                            //Añadimos el ultimo elemento de la lista 
+                        treeNode.push({ text: 'New List',                                                            //Añadimos el ultimo elemento de la lista 
 									    tags: ["<a href=\"/home/createList?cat=" + currentCat + "\">Create List</a>"]});//Que es un enlace a crear nueva lista										   
                         treeData.push({ text: currentCat, nodes: treeNode });                                           //Añadimos el array de listas al array de categorias 
                         treeNode = [];                                                                                  //Reseteamos el array de listas para procesar la proxima categoria

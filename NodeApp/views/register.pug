@@ -2,25 +2,29 @@
 html
     head
         title toDO.list - Register
+        meta(name="viewport" content="width=device-width, initial-scale=1")
         script(src ="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js")
         link(href="./static/css/theme.min.css" rel="stylesheet")
-        link(href="./static/css/login.css" rel="stylesheet")
+        link(href="./static/css/register.css" rel="stylesheet")
         script.
             function sendRegisterPostRequest() {
-                let userInfo;
+                if(!$("#username").val()) { $("#username").focus(); return; }
+                if(!$("#password").val()) { $("#password").focus(); return; }
+                if(!$("#email").val()) { $("#email").focus(); return; }
                 $.post("/register_form", $("#registerForm").serialize(), (data) => {
-                    userInfo=data;
-                    if(userInfo.userStatus==='USER_OK') $("#page_body").html(userInfo.html);
-                    $("#session").html('SessionID: '+userInfo.session);
-                    $("#username").html('Username: '+userInfo.username);
-                    $("#password").html('Password: '+userInfo.password);
-                    $("#email").html('email: '+userInfo.email);
-                    $("#date").html('Date: '+userInfo.time);
-                    $("#registerResult").html(userInfo.userStatus);
+                    $("#colRegisterSuccess").empty();
+                    if(data.userStatus==='USER_OK') {
+                        $("#colRegisterButton").html("<span id=\"welcomeMsg\">Welcome "+data.username+"!</span>");
+                        $("#successBoxRow").show();
+                    }
+                    else { 
+                        $("#colRegisterSuccess").html("<span id=\"errorMsg\">" + data.userStatus + "!</span>");
+                        $("#successBoxRow").show();
+                    }
                 });
             }
     body(id="page_body")
-        div(class="container-fluid" id="index")
+        div(class="container-fluid" id="register")
             div(class="row")
                 nav(class="navbar navbar-default")
                     div(class="container-fluid")
@@ -35,12 +39,25 @@ html
                             li
                                 a(id="navbar-item") 
                                     b #{user}
-        div(class="container-fluid")
-        form(id="registerForm")
-            input(type="text" id="campo1" name="campo1" placeholder="User name")
-            input(type="text" id="campo2" name="campo2" placeholder="Password")
-            input(type="text" id="campo3" name="campo3" placeholder="email")
-            input(type="button" value="Register" onclick="sendRegisterPostRequest()")
-        br
-        ins Register result:
-        ins(id="registerResult")
+            div(class="row" id="loginBox")
+                div(class="col-xs-12")
+                    form(class="form-group" id="registerForm")
+                        div(class="row" id="registerBoxRow")
+                            div(class="col-xs-3 col-xs-offset-4")
+                                label(for="campo1") User name:
+                                input(class="form-control" type="text" id="username" name="campo1" placeholder="User name")
+                        div(class="row" id="registerBoxRow")
+                            div(class="col-xs-3 col-xs-offset-4")
+                                label(for="campo2") Password:
+                                input(class="form-control" type="password" id="password" name="campo2" placeholder="Password")
+                        div(class="row" id="registerBoxRow")
+                            div(class="col-xs-3 col-xs-offset-4")
+                                label(for="campo3") E-mail:
+                                input(class="form-control" type="email" id="email" name="campo3" placeholder="e-mail")
+                        div(class="row" id="registerBoxRow")
+                            div(class="col-xs-3 col-xs-offset-4" id="colRegisterButton")
+                                input(class="btn btn-primary btn-block" type="button" value="Register" onclick="sendRegisterPostRequest()")
+                        div(class="row" id="successBoxRow")
+                            div(class="col-xs-3 col-xs-offset-4" id="colRegisterSuccess")
+                                a(class="btn btn-primary btn-block" href="/login" id="registerSuccessButton") Login
+                                a(class="btn btn-primary btn-block" href="/" id="registerSuccessButton") Start

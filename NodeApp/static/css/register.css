@@ -1,0 +1,33 @@
+﻿html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+body {
+    background-color:white;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+#brand-text {
+    font-weight:bolder;
+}
+#registerBoxRow, #registerButtonRow {
+    padding-top:10px;
+    text-align:center;
+}
+:focus {
+    outline-color: rgb(233, 84, 32);
+} 
+a:hover {
+    text-decoration:none;
+}
+#successBoxRow{
+	display:none;
+	text-align:center;
+}
+#welcomeMsg, #errorMsg{
+	font-size:18px;
+	color:rgb(233, 84, 32);
+}

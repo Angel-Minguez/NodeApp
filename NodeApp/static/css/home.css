@@ -1,0 +1,40 @@
+﻿html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+body {
+    background-color:white;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+#brand-text {
+    font-weight:bolder;
+}
+#loginBox {
+    text-align:center;
+    padding-top:5%;
+}
+#loginBoxRow {
+    padding-top:10px;
+    text-align:center;
+}
+:focus {
+    outline-color: rgb(233, 84, 32);
+} 
+.badge{
+	background-color: rgb(233, 84, 32);
+	border-radius: 0px;
+}
+.badge>a{
+	color: white;
+	font-weight:normal;
+}
+.badge>a:hover {
+    text-decoration:none;
+}
+.glyphicon{
+	color: rgb(233, 84, 32);
+}

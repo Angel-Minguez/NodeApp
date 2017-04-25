@@ -1,10 +1,10 @@
 doctype html
 html
     head
-        title toDO.list
-        link(href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet")
-        script(src="./node_modules/bootstrap/dist/js/bootstrap.min.js")
+        title toDO.list - Login
         script(src ="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js")
+        link(href="./static/css/theme.min.css" rel="stylesheet")
+        link(href="./static/css/login.css" rel="stylesheet")
         script.
             function sendLoginPostRequest() {
                 $.post("/login_form", $("#loginForm").serialize(), (data) => { 
@@ -13,16 +13,33 @@ html
                 });
             }
     body
-        h1 Login
-        form(id="loginForm")
-            input(type="text" id="campo1" name="campo1" placeholder="User")
-            input(type="text" id="campo2" name="campo2" placeholder="Password")
-            input(type="button" value="Login" onclick="sendLoginPostRequest()")
-        br
-        a(href="/register") Register
-        br
-        p(style="display:inline") Login result: 
-        span(id="loginResult")
-        p Session ID: #{sid}
-        p User:  #{user}
-        p Views: #{views}
+        div(class="container-fluid" id="index")
+            div(class="row")
+                nav(class="navbar navbar-default")
+                    div(class="container-fluid")
+                        div(class="navbar-header")
+                            a(id="brand-text" class="navbar-brand" href="/") toDO.list
+                        ul(class="nav navbar-nav")
+                            li
+                                a(href="/home" id="navbar-item") Home
+                            li
+                                a(href="#" id="navbar-item") About
+                        ul(class="nav navbar-nav navbar-right")               
+                            li
+                                a(id="navbar-item") 
+                                    b #{user}
+        div(class="container-fluid")
+            div(class="row" id="loginBox")
+                form(class="form-group" id="loginForm")
+                    div(class="row" id="loginBoxRow")
+                        div(class="col-xs-3 col-xs-offset-4")
+                            label(for="campo1") User:
+                            input(class="form-control" type="text" id="campo1" name="campo1" placeholder="User")
+                    div(class="row" id="loginBoxRow")
+                        div(class="col-xs-3 col-xs-offset-4")
+                            label(for="campo2") Password:
+                            input(class="form-control" type="password" id="campo2" name="campo2" placeholder="Password")
+                    div(class="row" id="loginBoxRow")
+                        div(class="col-xs-3 col-xs-offset-4")
+                            input(class="btn btn-primary btn-block" type="button" value="Login" onclick="sendLoginPostRequest()")
+                            a(class="btn btn-primary btn-block" href="/register") Register

@@ -13,25 +13,17 @@ body {
 #brand-text {
     font-weight:bolder;
 }
-#indexButtons{
-	text-align:center;
+#loginBox {
+    text-align:center;
     padding-top:5%;
 }
-#registerLink {
-    padding-right:25%;
+#loginBoxRow {
+    padding-top:10px;
+    text-align:center;
 }
-#loginLink {
-    padding-left: 25%;
-}
-#indexPresentation {
-    background-image:url(/static/img/info1.jpg);
-    background-size:cover;
-    padding-top:15%;
-    padding-bottom:15%;
-    padding-left:10%;
-    color:white;
-    font-size:30px;
-}
+:focus {
+    outline-color: rgb(233, 84, 32);
+} 
 a:hover {
     text-decoration:none;
 }

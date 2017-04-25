@@ -4,9 +4,7 @@ html
         title toDO.list
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
         script(src ="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js")
-        script(src="./node_modules/bootstrap/dist/js/bootstrap.min.js")
-        link(href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet")
-        //link(href="./static/css/bootstrap.css" rel="stylesheet")
+        link(href="./static/css/theme.min.css" rel="stylesheet")
         link(href="./static/css/index.css" rel="stylesheet")
     body
         div(class="container-fluid" id="index")
@@ -14,7 +12,7 @@ html
                 nav(class="navbar navbar-default")
                     div(class="container-fluid")
                         div(class="navbar-header")
-                            a(class="navbar-brand" href="/index") toDO.list
+                            a(id="brand-text" class="navbar-brand" href="/") toDO.list
                         ul(class="nav navbar-nav")
                             li
                                 a(href="/home" id="navbar-item") Home
@@ -30,7 +28,8 @@ html
                     |everyday tasks
                 div(class="container-fluid" id="indexButtons")
                     div(class="row")
-                        div(class="col-xs-6")
-                            a(id="loginLink" class="btn btn-primary" href="/login") Login
-                        div(class="col-xs-6")
-                            a(id="registerLink" class="btn btn-primary" href="/register") Register
+                        div(id="loginLink" class="col-xs-6")
+                            a(class="btn-lg btn-primary btn-block" href="/login" role="button") Login
+                        div(id="registerLink" class="col-xs-6")
+                            a(class="btn-lg btn-primary btn-block" href="/register") Register
+                            

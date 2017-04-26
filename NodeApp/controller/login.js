@@ -22,17 +22,18 @@ module.exports.userLoginForm = function (req, res, next) {                      
             }
             else if (_user) {                                                                       //Si encontramos al nombre de usuario en la bd
                 if (passwordHash.verify(userInfo.password, _user.userPassword)) resolve('LOGIN_OK');//Validamos el hash de su contraseña
-                else reject(Error('Password invalida'));                                            //Si no coincide rechazamos la promesa
+                else reject(Error('Invalid password!'));                                            //Si no coincide rechazamos la promesa
             }
+				else reject(Error('User not found'));
         });
     });
     loginPromise.then((result) => {                                                     //Desencadenante de la promesa con exito
         req.session.user = userInfo.userName;                                           //Actualizamos sesion con el nombre de usuario
-        res.end(result);                                                                //Enviamos mensaje de OK a la vista via respuesta al post AJAX
+		res.end(result);                                                                //Enviamos mensaje de OK a la vista via respuesta al post AJAX
     },
         (err) => {                                                                      //Desencadenante de la promesa con fracaso
             req.session.user = 'guest';                                                 //Actualizamos sesion con tipo invitado
-            res.end(err.message);                                                       //Enviamos el mensaje de error a la vista via respuesta al post AJAX
+			res.end(err.message);                                                       //Enviamos el mensaje de error a la vista via respuesta al post AJAX
         });
 }
 //Requerido por: /router/router.js

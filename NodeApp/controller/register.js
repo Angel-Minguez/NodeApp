@@ -9,7 +9,7 @@ const passwordHash = require('password-hash');                  //Modulo de hash
 //Funcion de control de /register
 module.exports.userRegister = function (req, res, next) {   
     if (req.session.user !== 'guest') res.redirect('/login');    //Si el usuario esta logueado o no esta definido por algun motivo se le redireciona a la pagina de login
-    res.render('register.pug', {});                             //Renderizamos la vista
+    res.render('register.pug', {user:req.session.user});         //Renderizamos la vista
 }
 //Funcion de control del formulario de registro
 module.exports.userRegisterForm = function (req, res, next) {

@@ -25,16 +25,10 @@ module.exports.getTreeData = function (req, res) {
                             treeNode.push({ text: currentElem._doc.listTitle , id: hash.generate(currentElem._doc._id.toString()),       //Alamcenamos el elemento
                                             icon: 'glyphicon glyphicon-list',
                                             tags: ["<a href=\"/home/deleteList?listId=" + currentElem._doc._id + "\">Delete List</a>"]
+											//tags: ["<input class='btn btn-sm btn-primary' type='button' value='Delete List' onclick='deleteList()'</input>"]
                             });   //Añadimos el enlace de borrado en una tag
                             _listResults.splice(_listResults.indexOf(currentElem), 1);                                                  //Eliminamos el elemento del array de resultados
                         }
-                      
-                           // treeNode.push({
-                             //   text: 'New List', icon: 'glyphicon glyphicon-list',                             //Añadimos el ultimo elemento de la lista 
-                           //     tags: ["<a href=\"/home/createList?cat=" + currentCat + "\">Create List</a>"]
-                          //  });                                                                                             //Que es un enlace a crear nueva lista				
-                     
-                    
                         treeData.push({ text: currentCat, nodes: treeNode });                                           //Añadimos el array de listas al array de categorias 
                         treeNode = [];                                                                                  //Reseteamos el array de listas para procesar la proxima categoria
                     }
@@ -42,8 +36,6 @@ module.exports.getTreeData = function (req, res) {
                  }
         });
 }
-
-
 module.exports.viewList = function (req, res, next) {
 	let viewHtml;
     listModel.list.findOne({userName: req.session.user, listTitle: req.body.name, listCat: req.body.parent.text  }, (err, _list) => {

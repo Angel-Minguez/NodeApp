@@ -5,8 +5,8 @@ html
     script(src ="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js")
     link(href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet")
     script(src="/node_modules/bootstrap/dist/js/bootstrap.min.js")
-    
     script.
+        $(document).ready(()=>{if($("#selectCat").val() === 'New') $("#newCatForm").show();});
         function postLine() {
             $.post("/home/createList/addListItem_form", $("#listItemForm").serialize(), (data) => {
                     $("#listContainer").append(data);
@@ -18,11 +18,19 @@ html
                     $("#titleButton").attr("disabled", true);
             });
         }
+        function postCat() {
+            $.post("/home/createList/addListCat_form", $("#newCatForm").serialize(), (data) => {
+                    $("#listContainer").append(data);
+            });
+        }
         function saveList() {
-            $.get("/home/createList/saveList_form", (data) => {
+            $.post("/home/createList/saveList_form",{cat:$("#selectCat").val()}, (data) => {
                 if(data==='SAVE_OK') location.href = "/home";
                 else $("#H1").html('Error al guardar la lista');
             });
+        }
+        function catChange() {
+            if($("#selectCat").val() === 'New') $("#newCatForm").show();
         }
   body
     h1(id="H1") List Creation
@@ -35,12 +43,12 @@ html
         input(type= "text" name ="campo1" placeholder="List item")
         input(type="reset" value ="Reset")
         input(type="button" value ="Set task" onclick="postLine()")
+    form(id="newCatForm" method="post" style="display:none;")
+        input(type= "text" name ="campo1" placeholder="New Cat")
+        input(type="reset" value ="Reset")
+        input(type="button" value ="Set task" onclick="postCat()")
     form(id="listDone")
         input(type="button" value="Done" onclick="saveList()")
-    div(class="dropdown")
-        button(class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown") Category
-            span(class="caret")
-        ul(class="dropdown-menu")
-            each val in cats
-                li
-                    a!= val
+    select(class="custom-select" id="selectCat" onchange="catChange()")
+        each val in cats
+            option!= val

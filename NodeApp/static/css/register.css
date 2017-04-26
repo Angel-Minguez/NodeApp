@@ -23,11 +23,10 @@ body {
 a:hover {
     text-decoration:none;
 }
-#successBoxRow{
+#successBox, #errorBox{
 	display:none;
 	text-align:center;
 }
-#welcomeMsg, #errorMsg{
-	font-size:18px;
+#welcomeMsg, #errorMsg, #successBox{
 	color:rgb(233, 84, 32);
 }

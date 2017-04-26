@@ -26,6 +26,7 @@ html
                         //    tags:["<a data-toggle=\"modal\" data-target=\"#myModal\">New category</a>"]
                         // });
                         $("#tree").treeview({data:treeData, 
+                                         enableLinks:true,
                                          showTags: true,
                                          expandIcon: "glyphicon glyphicon-tags",
                                          collapseIcon: "glyphicon glyphicon-tags",
@@ -44,6 +45,9 @@ html
             }
             function createList() {
                 $.get("/home/createList", (data) => updateTreeView(data));  
+            }
+            function deleteList(){
+                alert( $("#tree").treeview("getSelected"));
             }
     body
         div(class="container-fluid" id="index")

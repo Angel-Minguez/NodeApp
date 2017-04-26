@@ -12,14 +12,16 @@ html
                 if(!$("#password").val()) { $("#password").focus(); return; }
                 if(!$("#email").val()) { $("#email").focus(); return; }
                 $.post("/register_form", $("#registerForm").serialize(), (data) => {
-                    $("#colRegisterSuccess").empty();
+                    $("#colRegisterButton").empty();
                     if(data.userStatus==='USER_OK') {
-                        $("#colRegisterButton").html("<span id=\"welcomeMsg\">Welcome "+data.username+"!</span>");
-                        $("#successBoxRow").show();
+                        $("#successBox").show();
+                        $("#errorBox").hide();
+                        $("#successBox").append("<div id=\"registerMsg\" class=\"col-xs-3 col-xs-offset-4\">Welcome "+data.username+"!</div>");
+                        $(".form-control").attr("disabled", "true");
                     }
                     else { 
-                        $("#colRegisterSuccess").html("<span id=\"errorMsg\">" + data.userStatus + "!</span>");
-                        $("#successBoxRow").show();
+                        $("#errorBox").show();
+                        $("#errorMsg").html("<div id=\"registerMsg\">"+data.userStatus+"!</div>");
                     }
                 });
             }
@@ -57,7 +59,11 @@ html
                         div(class="row" id="registerBoxRow")
                             div(class="col-xs-3 col-xs-offset-4" id="colRegisterButton")
                                 input(class="btn btn-primary btn-block" type="button" value="Register" onclick="sendRegisterPostRequest()")
-                        div(class="row" id="successBoxRow")
+                        div(class="row" id="successBox")
                             div(class="col-xs-3 col-xs-offset-4" id="colRegisterSuccess")
                                 a(class="btn btn-primary btn-block" href="/login" id="registerSuccessButton") Login
                                 a(class="btn btn-primary btn-block" href="/" id="registerSuccessButton") Start
+                        div(class="row" id="errorBox")
+                            div(class="col-xs-3 col-xs-offset-4" id="colRegisterError")
+                                input(class="btn btn-primary btn-block" type="button" value="Register" onclick="sendRegisterPostRequest()")
+                            div(class="col-xs-3 col-xs-offset-4" id="errorMsg")

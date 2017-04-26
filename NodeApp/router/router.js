@@ -11,8 +11,9 @@ module.exports = function (req, res, next) {        //Funcion de routeo de reque
     app.post('/register_form', require('../controller/register.js').userRegisterForm);
     app.get ('/home', require('../controller/home.js').home);
     app.get ('/home/getTreeData', require('../controller/home.js').getTreeData);
-	app.post ('/home/viewList', require('../controller/home.js').viewList);
-	app.get ('/home/createList', require('../controller/createList.js').createList);
+	app.post('/home/viewList', require('../controller/home.js').viewList);
+ //   app.post('/home/createCat', require('../controller/createList.js').createCat);
+    app.get ('/home/createList', require('../controller/createList.js').createList);
 	app.get ('/home/deleteList', require('../controller/deleteList.js').deleteList);
     app.post('/home/createList/addListTitle_form', require('../controller/createList.js').addListTitle);
     app.post('/home/createList/addListItem_form', require('../controller/createList.js').addListItem);

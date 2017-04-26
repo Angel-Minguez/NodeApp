@@ -14,14 +14,22 @@ module.exports.createList = function (req, res, next) {
             else module.exports.list = new listModel.list({			                //Creamos un objeto temporal list donde ir almacenando
 				userName: req.session.user,                                         //Nombre de usuario
                 user_id: _user._id,                                                 //ID del usuario
-                listCat: req.query.cat,                                             //Categoria de la lista
+                listCat: 'undefined',                                               //Categoria de la lista
                 listTitle: 'undefined',                                             //Titulo de la lista
                 listCreationTitle: 'undefined',                                     //Titulo original de creacion
                 listItems: [],                                                      //Elementos de la lista
                 listCreationTime: 'undefined'                                       //Fecha de la creacion de la lista
                 });    
     });
-    res.render('createList.pug', { user: req.session.user });		                //Presentamos la pagina de creacion
+    //Poblamos el dropdown
+    var cats = [];
+    listModel.list.find({ userName: req.session.user }, (err, _listResults) => {
+        _listResults.forEach((_list) => {
+            cats.push(_list._doc.listCat);
+        });
+        res.render('createList.pug', { user: req.session.user, cats: cats });		        
+    });
+    //res.render('createList.pug', { user: req.session.user });		                //Presentamos la pagina de creacion
 }
 //Funcion para añadir titulo a la lista
 module.exports.addListTitle = function (req, res) {   							    
@@ -82,4 +90,21 @@ module.exports.saveList = function (req, res) {
 			}
 	});
 }
+//Funcion que crea una categoria (una lista sin titulo y solo con el campo categoria informado)
+//module.exports.createCat = function (req, res) {
+  //  userModel.user.findOne({ 'userName': req.session.user }, (err, _user) => {      //Buscamos el id del usuario
+  //      if (err) debug('ERROR en user.findOne userName: ', req.session.user);       //Si se produce un error en la busqueda lo mostramos
+  //      else if (!_user) debug('ERROR: usuario no encontrado:', req.session.user);  //Si no se encuentra al usuario (no deberia ocurrir)
+   //     else module.exports.list = new listModel.list({			                    //Creamos un objeto temporal list donde ir almacenando
+   //         userName: req.session.user,                                             //Nombre de usuario
+    //        user_id: _user._id,                                                     //ID del usuario
+    //        listCat: req.body.newCat,                                                  //Categoria de la lista
+   //         listTitle: 'undefined',                                                 //Titulo de la lista
+   //         listCreationTitle: 'undefined',                                         //Titulo original de creacion
+   //         listItems: [],                                                          //Elementos de la lista
+  //          listCreationTime: 'undefined'                                           //Fecha de la creacion de la lista
+  //      });
+  //      module.exports.saveList(req, res);                                          //Llamamos al metodo que guarda la lista en la bd
+//    });  
+//}
 //Requerido por: /router/router.js

@@ -11,30 +11,39 @@ html
         link(href="./static/css/home.css" rel="stylesheet")
         script.
             $(document).ready(updateTreeView());
-            function updateTreeView(newCat) {
-                var treeData;
-                $.get("/home/getTreeData", (data) => { 
-                    treeData=data
-                    if(newCat) {
-                        treeData.push({
-                            text: newCat, href: '/home/viewList?cat=' + newCat, nodes: [{  text: 'New list', 
-                            tags: ["<a href=\"/home/createList?cat=" + newCat + "\">Create List</a>"]}]
-                        });
-                    }
-                    treeData.push ({
-                        text: 'New category', href:"/home/createList", 
-                        tags:["<a data-toggle=\"modal\" data-target=\"#myModal\">New category</a>"]
-                    }); 
-                    $("#tree").treeview({data:treeData, enableLinks:true, showTags:true, onNodeSelected:onNodeSelected});                
-                });
+            function updateTreeView(data) {
+                var treeData=[];
+                if(!data) {
+                    $.get("/home/getTreeData", (data) => { 
+                        console.log(treeData);
+                        treeData=data;
+                        //treeData.push({
+                        //    text: newCat, href: '/home/viewList?cat=' + newCat, nodes: [{  text: 'New list', 
+                        //    tags: ["<a href=\"/home/createList?cat=" + newCat + "\">Create List</a>"]}]
+                        //});
+                        //treeData.push ({
+                        //    text: 'New category', href:"/home/createList", icon: "glyphicon glyphicon-plus",
+                        //    tags:["<a data-toggle=\"modal\" data-target=\"#myModal\">New category</a>"]
+                        // });
+                        $("#tree").treeview({data:treeData, 
+                                         showTags: true,
+                                         expandIcon: "glyphicon glyphicon-tags",
+                                         collapseIcon: "glyphicon glyphicon-tags",
+                                         onNodeSelected: onNodeSelected,
+                                         showBorder: false,
+                                         selectedBackColor: "#a0a0a0" });
+                    });
+                }
+                   
+                                    
             }
             function onNodeSelected(event, node) {
                 $.post("/home/viewList", {parent : $("#tree").treeview("getParent", node), name: node.text, id: node.id} , (data)=>{
                     $("#listView").html(data.toString());
                 });
             }
-            function createCat() {
-                updateTreeView($("#catName").val());
+            function createList() {
+                $.get("/home/createList", (data) => updateTreeView(data));  
             }
     body
         div(class="container-fluid" id="index")
@@ -50,19 +59,20 @@ html
                                 a(href="#" id="navbar-item") About
                         ul(class="nav navbar-nav navbar-right")               
                             li
+                                a(href="/logout" id="navbar-item") Logout
+                            li
                                 a(id="navbar-item") 
                                     b #{user}
-        form(method="get" action="/logout" id="logoutForm")
-             input(type="submit" value="Logout")
-        br
         div(id="tree" style="width:30%; float:left;")
         div(id="listView" style="width:70%; float:left")
-        div(class="modal fade" id="myModal" role="dialog")
-            div(class="modal-dialog modal-sm")
-                div(class="modal-content")
-                    div(class="modal-header")
-                        button(type="button" class="close" data-dismiss="modal") &times;
-                        h4(class="modal-title") New category
-                    div(class="modal-body")
-                        input(type="text" id="catName" placeholder="Category name" name="campo1")
-                        input(type="button" value="Ok" data-dismiss="modal" onclick="createCat()")
+        a(class="btn-lg btn-primary" href="home/createList" role="button") Create list
+        //input(type="button" class="btn-lg btn-primary" value="create list" onclick="createList()")
+        //div(class="modal fade" id="myModal" role="dialog")
+            //div(class="modal-dialog modal-sm")
+                //div(class="modal-content")
+                    //div(class="modal-header")
+                        //button(type="button" class="close" data-dismiss="modal") &times;
+                        //h4(class="modal-title") New category
+                    //div(class="modal-body")
+                        //input(type="form-control" id="catName" placeholder="Category name" name="campo1")
+                        //input(class="btn btn-primary" type="button" value="Ok" data-dismiss="modal" onclick="createCat()")

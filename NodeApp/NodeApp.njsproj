@@ -78,6 +78,7 @@
     <Compile Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="static\css\home.css" />
     <Content Include="static\css\login.css" />
     <Content Include="static\css\index.css">
       <SubType>Code</SubType>
@@ -97,9 +98,6 @@
     </Content>
     <Content Include="views\login.pug" />
     <Content Include="views\register.pug">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="views\registerResults.pug">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>

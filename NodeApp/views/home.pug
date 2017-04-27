@@ -29,12 +29,15 @@ html
                 }
             }
             function onNodeSelected(event, node) {
-                $.post("/home/viewList", {parent : $("#tree").treeview("getParent", node), name: node.text, id: node.id} , (data)=>{
+                $.post("/home/createList", {action:"edit", 
+                                            parent : $("#tree").treeview("getParent", node), 
+                                            name: node.text, 
+                                            id: node.id}, (data) => {
                     $("#listView").html(data.toString());
-                });
+                });  
             }
             function createList() {
-                $.get("/home/createList", (data) => {
+                $.post("/home/createList", {action:"create"},(data) => {
                 $("#listView").html(data.toString());
                 });  
             }
@@ -64,5 +67,5 @@ html
                 div(class="col-xs-4")
                     div(id="treeLabel") #{user} list's
                     div(id="tree")
-                    input(class="btn btn-primary btn-block" onclick="createList()" value="Create List")
+                    input(class="btn btn-primary btn-block" type="button" onclick="createList()" value="Create List")
                 div(class="col-xs-8" id="listView")

@@ -5,45 +5,77 @@
 'use strict'
 const listModel = require('../models/listModel.js');                                //Importamos el modelo de la lista
 const userModel = require('../models/userModel.js');                                //Modelo de datos del usuario
+const hash = require('password-hash'); 
 const debug = require('debug')('createList');							            //Modulo de mensajes de debug
 //Funcion de carga de la pantalla de creacion de lista
 module.exports.createList = function (req, res, next) {
-	userModel.user.findOne({'userName': req.session.user }, (err, _user) => {       //Buscamos el id del usuario
-        if (err) debug('ERROR en user.findOne userName: ', req.session.user);       //Si se produce un error en la busqueda lo mostramos
-        else if (!_user) debug('ERROR: usuario no encontrado:', req.session.user);  //Si no se encuentra al usuario (no deberia ocurrir)
-            else module.exports.list = new listModel.list({			                //Creamos un objeto temporal list donde ir almacenando
-				userName: req.session.user,                                         //Nombre de usuario
-                user_id: _user._id,                                                 //ID del usuario
-                listCat: 'undefined',                                               //Categoria de la lista
-                listTitle: 'undefined',                                             //Titulo de la lista
-                listCreationTitle: 'undefined',                                     //Titulo original de creacion
-                listItems: [],                                                      //Elementos de la lista
-                listCreationTime: 'undefined'                                       //Fecha de la creacion de la lista
-                });    
-    });
-    //Poblamos el dropdown
-    var cats = [];                                                                                  //Array que almacenara las categorias                                                               
-    listModel.list.find({ userName: req.session.user }, (err, _listResults) => {                    //Buscamos todas las listas del usuario
-        while (_listResults.length > 0) {                                                           //Mientras queden listas en el array de resultados
-            var currentCat = _listResults[0]._doc.listCat,                                          //Variable que almacena la categoria actual
-            currentElem = 'undefined';                                              	            //Variable que almacena el elemento actual
-                while (currentElem =_listResults.find((elem)=>elem._doc.listCat === currentCat)) {  //Mientras sigan quedando elementos de la categoria actual
-                    _listResults.splice(_listResults.indexOf(currentElem), 1);                      //Eliminamos el elemento del array de resultados
-                }
-                cats.push(currentCat);                                           		            //Añadimos el array de listas al array de categorias 
-        }
-        cats.push('New');                                                                           //Añadimos la opcion para categoria nueva
-        res.render('createList2.pug', {user: req.session.user, cats: cats }, (err, html) => {
-            if (err) console.log(err);
-            var viewHtml = html;
-            res.send(viewHtml);
-        });
-    });
+	if(req.body.action=='create') {
+		userModel.user.findOne({'userName': req.session.user }, (err, _user) => {       //Buscamos el id del usuario
+			if (err) debug('ERROR en user.findOne userName: ', req.session.user);       //Si se produce un error en la busqueda lo mostramos
+			else if (!_user) debug('ERROR: usuario no encontrado:', req.session.user);  //Si no se encuentra al usuario (no deberia ocurrir)
+				else module.exports.list = new listModel.list({			                //Creamos un objeto temporal list donde ir almacenando
+					userName: req.session.user,                                         //Nombre de usuario
+					user_id: _user._id,                                                 //ID del usuario
+					listCat: 'undefined',                                               //Categoria de la lista
+					listTitle: 'undefined',                                             //Titulo de la lista
+					listCreationTitle: 'undefined',                                     //Titulo original de creacion
+					listItems: [],                                                      //Elementos de la lista
+					listCreationTime: 'undefined'                                       //Fecha de la creacion de la lista
+					});    
+		});
+	}
+	//Poblamos los elementos de la lista solo para el caso onnodeselected
+	if(req.body.id){
+		var elem=[];
+		listModel.list.findOne({userName: req.session.user, 
+								listTitle: req.body.name, 
+								listCat: req.body.parent.text }, (err, _list) => {
+			if (err) debug('ERROR en listModel.find', req.body.name, ':', req.body.parent.text);
+			else if (!_list) debug('ERROR lista no encontrada', req.body.name, ':', req.body.parent);
+			else {
+				if (hash.verify(_list._id.toString()), req.body.id) {
+					module.exports.list = _list;
+					res.render('createList2.pug', {	user: req.session.user, 
+													cats:[], 
+													cat: _list.listCat,
+													title: _list.listTitle,
+													elem:_list.listItems}, (err, html) => {
+						console.log(_list.listTitle);
+						if (err) debug(err.msg);
+						res.send(html);
+					});                                                               
+				}
+				else debug('ERROR en listModel.find, HASH incorrecto', req.body.name, ':', req.body.parent);
+			}
+		});
+	}
+	//Poblamos el dropdown
+    if(!req.body.id) {
+		var cats = [];                                                                                  //Array que almacenara las categorias                                                               
+		listModel.list.find({ userName: req.session.user }, (err, _listResults) => {                    //Buscamos todas las listas del usuario
+			while (_listResults.length > 0) {                                                           //Mientras queden listas en el array de resultados
+				var currentCat = _listResults[0]._doc.listCat,                                          //Variable que almacena la categoria actual
+				currentElem = 'undefined';                                              	            //Variable que almacena el elemento actual
+					while (currentElem =_listResults.find((elem)=>elem._doc.listCat === currentCat)) {  //Mientras sigan quedando elementos de la categoria actual
+						_listResults.splice(_listResults.indexOf(currentElem), 1);                      //Eliminamos el elemento del array de resultados
+					}
+					cats.push(currentCat);                                           		            //Añadimos el array de listas al array de categorias 
+			}
+			cats.push('New');
+			res.render('createList2.pug', {	user: req.session.user,
+											cats: cats, 
+											cat: 'Choose category',
+											title: 'Type a title',
+											elem:[]}, (err, html) => {
+				if (err) debug(err.msg);
+				res.send(html);
+			});                                                               
+		});
+	}	
 }
 //Funcion para añadir titulo a la lista (el titulo ha de ser unico)
 module.exports.addListTitle = function (req, res) {   							    
-    if (req.body.campo1)                                                            //Si el item no es una cadena vacia
-        listModel.list.find({                                                       //Buscamos otras listas de la misma categoria
+		listModel.list.find({                                                       //Buscamos otras listas de la misma categoria
             'userName': req.session.user,                                           //Y del mismo usuario
             'listCreationTitle': req.body.campo1                                    
         }, (err, _listResults) => {
@@ -81,7 +113,7 @@ module.exports.saveList = function (req, res) {
         if (err) debug('Error en user.findOne userName: ', req.session.user);       //Control de error en la busqueda
         else if (!_user) debug('ERROR: usuario no encontrado:', req.session.user);  //Usuario no encontrado (no deberia ocurrir)
             else {
-				_user.numberOfLists++;                                              //Se añade uno al numero de listas que tiene el usuario
+				//_user.numberOfLists++;                                              //Se añade uno al numero de listas que tiene el usuario
 				_user.save((err)=> {                                                //Se guarda el numero modificado
 					if(err) debug('ERROR guardando cambios:', err.message);         //Se muestra error en caso de haberlo                             
 					else debug(_user);                                              //Se muestra al usuario modificado

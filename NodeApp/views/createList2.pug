@@ -1,7 +1,7 @@
 ﻿script.
     $(document).ready(()=>{
         if($("#selectCat").val() === 'New') $("#newCatForm").show();
-        $.get("/home/createList", ()=>{});
+        //$.get("/home/createList", ()=>{});
     });
             function postLine() {
                 $.post("/home/createList/addListItem_form", $("#listItemForm").serialize(), (data) => {
@@ -21,7 +21,6 @@
             }
             function saveList() {
                 $.post("/home/createList/saveList_form",{cat:$("#selectCat").val()}, (data) => {
-                    //if(data==='SAVE_OK') location.href = "/home";
                     if(data==='SAVE_OK') updateTreeView();
                     else $("#H1").html('Error al guardar la lista');
                 });
@@ -30,12 +29,19 @@
                 if($("#selectCat").val() === 'New') $("#newCatForm").show();
             }
 div(class="container-fluid")
-    h1(id="H1") List Creation
+    div(id="title") Title: #{title}
+        form(id="listTitleForm" method="post")
+            input(type= "text" name ="campo1" placeholder="List title")
+            input(type="reset" value ="Reset")
+            input(type="button" id="titleButton" value ="Set Title" onclick="postTitle()")
+    div(id="cat") Category: #{cat}
+        select(class="custom-select" id="selectCat" onchange="catChange()")
+            each val in cats
+                option!= val
+    ul
+        each val in elem
+            li!= val
     div(id="listContainer")
-    form(id="listTitleForm" method="post")
-        input(type= "text" name ="campo1" placeholder="List title")
-        input(type="reset" value ="Reset")
-        input(type="button" id="titleButton" value ="Set Title" onclick="postTitle()")
     form(id="listItemForm" method="post")
         input(type= "text" name ="campo1" placeholder="List item")
         input(type="reset" value ="Reset")
@@ -46,6 +52,4 @@ div(class="container-fluid")
         input(type="button" value ="Set task" onclick="postCat()")
     form(id="listDone")
         input(type="button" value="Done" onclick="saveList()")
-    select(class="custom-select" id="selectCat" onchange="catChange()")
-        each val in cats
-            option!= val
+    

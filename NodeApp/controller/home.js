@@ -38,23 +38,4 @@ module.exports.getTreeData = function (req, res) {
                  }
         });
 }
-//Funcion que muestra el contenido de la lista
-module.exports.viewList = function (req, res, next) {
-	let viewHtml;
-    listModel.list.findOne({userName: req.session.user, listTitle: req.body.name, listCat: req.body.parent.text  }, (err, _list) => {
-        if (err) debug('ERROR en listModel.find', req.body.name, ':', req.body.parent.text);
-        else if (!_list) debug('ERROR lista no encontrada', req.body.name, ':', req.body.parent);
-        else {
-            if (hash.verify(_list._id.toString()), req.body.id) {
-                res.render('listView.pug', { name: _list.listTitle, data: _list.listItems }, (err, html) => {
-                    if (err) console.log(err);
-                    viewHtml = html;
-                    res.send(viewHtml);
-                });
-            }
-            else debug('ERROR en listModel.find, HASH incorrecto', req.body.name, ':', req.body.parent);
-        }
-	});
-	debug(req.body.name, ':', req.body.parent);
-}
 //Requerido por: /router/router.js

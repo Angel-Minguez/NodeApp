@@ -27,3 +27,6 @@ body {
 a:hover {
     text-decoration:none;
 }
+#loginResult {
+    color:rgb(233, 84, 32);
+}

@@ -19,8 +19,7 @@ module.exports.userRegisterForm = function (req, res, next) {
         email: req.body.campo3,
         session: req.session.id,                                                                //Temporal, mostramos la id de la sesion
         time: new Date().toUTCString(),                                                         //Fecha de la creacion
-        userStatus: 'undefined',                                                                //Propiedad para responder con el exito o el tipo de error  
-        //html: 'undefined'
+        userStatus: 'undefined'                                                                 //Propiedad para responder con el exito o el tipo de error  
     };
     function validateUser(userInfo, callback) {                                                 //Funcion de validacion del usuario asincrona
         userModel.user.findOne({ userName: userInfo.username }, (err, _user) => {               //Buscamos el nombre por si estuviera repetido
@@ -59,7 +58,6 @@ module.exports.userRegisterForm = function (req, res, next) {
             else {                                                                        //En caso de exito en el guardado
                 debug('Usuario creado con exito');                                        //Mostramos el mensaje
                 userInfo.userStatus = 'USER_OK';                                          //Actualizamos el objeto de usuario con la informacio del error          
-                //res.render('registerResults.pug', (err, html) => userInfo.html=html);     //Enviamos codigo html con los detalles del registro al post AJAX
                 res.send(userInfo);
             }
         });

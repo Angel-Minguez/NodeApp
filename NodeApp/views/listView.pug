@@ -1,3 +1,7 @@
-﻿ul
-    each val in data
-        li!= val
+﻿div(class="container-fluid")
+    div(class="row" id="listTitle") #{name}
+    table(class="table")
+        tbody
+            each val in data
+                tr
+                    td!= val

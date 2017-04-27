@@ -14,29 +14,19 @@ html
             function updateTreeView(data) {
                 var treeData=[];
                 if(!data) {
-                    $.get("/home/getTreeData", (data) => { 
-                        console.log(treeData);
+                    $.get("/home/getTreeData", (data) => {
                         treeData=data;
-                        //treeData.push({
-                        //    text: newCat, href: '/home/viewList?cat=' + newCat, nodes: [{  text: 'New list', 
-                        //    tags: ["<a href=\"/home/createList?cat=" + newCat + "\">Create List</a>"]}]
-                        //});
-                        //treeData.push ({
-                        //    text: 'New category', href:"/home/createList", icon: "glyphicon glyphicon-plus",
-                        //    tags:["<a data-toggle=\"modal\" data-target=\"#myModal\">New category</a>"]
-                        // });
-                        $("#tree").treeview({data:treeData, 
-                                         enableLinks:true,
+                        $("#tree").treeview({data:treeData,
                                          showTags: true,
                                          expandIcon: "glyphicon glyphicon-tags",
                                          collapseIcon: "glyphicon glyphicon-tags",
                                          onNodeSelected: onNodeSelected,
                                          showBorder: false,
-                                         selectedBackColor: "#a0a0a0" });
+                                         selectedBackColor: "#dddddd",
+                                         onhoverColor: "#dddddd",
+                                         selectedColor: "black"});
                     });
                 }
-                   
-                                    
             }
             function onNodeSelected(event, node) {
                 $.post("/home/viewList", {parent : $("#tree").treeview("getParent", node), name: node.text, id: node.id} , (data)=>{
@@ -44,10 +34,12 @@ html
                 });
             }
             function createList() {
-                $.get("/home/createList", (data) => updateTreeView(data));  
+                $.get("/home/createList", (data) => {
+                $("#listView").html(data.toString());
+                });  
             }
-            function deleteList(){
-                alert( $("#tree").treeview("getSelected"));
+            function deleteList(listName, listCat) {
+                $.get("/home/deleteList", {name: listName, cat:listCat}, ()=> updateTreeView());
             }
     body
         div(class="container-fluid" id="index")
@@ -67,16 +59,10 @@ html
                             li
                                 a(id="navbar-item") 
                                     b #{user}
-        div(id="tree" style="width:30%; float:left;")
-        div(id="listView" style="width:70%; float:left")
-        a(class="btn-lg btn-primary" href="home/createList" role="button") Create list
-        //input(type="button" class="btn-lg btn-primary" value="create list" onclick="createList()")
-        //div(class="modal fade" id="myModal" role="dialog")
-            //div(class="modal-dialog modal-sm")
-                //div(class="modal-content")
-                    //div(class="modal-header")
-                        //button(type="button" class="close" data-dismiss="modal") &times;
-                        //h4(class="modal-title") New category
-                    //div(class="modal-body")
-                        //input(type="form-control" id="catName" placeholder="Category name" name="campo1")
-                        //input(class="btn btn-primary" type="button" value="Ok" data-dismiss="modal" onclick="createCat()")
+        div(class="container-fluid" id="register")
+            div(class="row")
+                div(class="col-xs-4")
+                    div(id="treeLabel") #{user} list's
+                    div(id="tree")
+                    input(class="btn btn-primary btn-block" onclick="createList()" value="Create List")
+                div(class="col-xs-8" id="listView")

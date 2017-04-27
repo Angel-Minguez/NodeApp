@@ -12,15 +12,13 @@ module.exports = function (req, res, next) {        //Funcion de routeo de reque
     app.get ('/home', require('../controller/home.js').home);
     app.get ('/home/getTreeData', require('../controller/home.js').getTreeData);
 	app.post('/home/viewList', require('../controller/home.js').viewList);
- //   app.post('/home/createCat', require('../controller/createList.js').createCat);
-
 	app.get ('/home/createList', require('../controller/createList.js').createList);
 	app.get ('/home/deleteList', require('../controller/deleteList.js').deleteList);
     app.post('/home/createList/addListCat_form', require('../controller/createList.js').addListCat);
 	app.post('/home/createList/addListTitle_form', require('../controller/createList.js').addListTitle);
     app.post('/home/createList/addListItem_form', require('../controller/createList.js').addListItem);
-	app.post ('/home/createList/saveList_form', require('../controller/createList.js').saveList);
+	app.post('/home/createList/saveList_form', require('../controller/createList.js').saveList);
     app.get ('/logout', require('../controller/logout.js'));
-	next();    //Invocamos el siguiente elemento de la pila de middleware  
+	next();//Invocamos el siguiente elemento de la pila de middleware  
 }
 //Requerido por: /server.js

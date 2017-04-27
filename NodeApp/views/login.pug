@@ -12,7 +12,7 @@ html
                 if(!$("#password").val()) { $("#password").focus(); return; }
                 $.post("/login_form", $("#loginForm").serialize(), (data) => { 
                     if(data==='LOGIN_OK') window.location ="/home";
-                    $("#loginResult").html(data); 
+                    else $("#loginResult").html(data); 
                 });
             }
     body

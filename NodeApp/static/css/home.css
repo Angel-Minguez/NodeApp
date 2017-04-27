@@ -13,14 +13,6 @@ body {
 #brand-text {
     font-weight:bolder;
 }
-#loginBox {
-    text-align:center;
-    padding-top:5%;
-}
-#loginBoxRow {
-    padding-top:10px;
-    text-align:center;
-}
 :focus {
     outline-color: rgb(233, 84, 32);
 } 
@@ -28,13 +20,26 @@ body {
 	background-color: rgb(233, 84, 32);
 	border-radius: 0px;
 }
-.badge>a{
-	color: white;
-	font-weight:normal;
+.badge .btn{
+    padding:0px 5px 0px 5px;
 }
-.badge>a:hover {
+.a:hover {
     text-decoration:none;
 }
 .glyphicon{
 	color: rgb(233, 84, 32);
 }
+#treeLabel, #listTitle {
+    color: rgb(233, 84, 32);
+    font-weight: bold;
+    text-align:center;
+}
+li.list-group-item.node-tree {
+    padding-right:0px;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+span.badge {
+    padding:0 0 0 0;
+}
+

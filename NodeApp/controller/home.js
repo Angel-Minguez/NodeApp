@@ -21,21 +21,24 @@ module.exports.getTreeData = function (req, res) {
                     while (_listResults.length > 0) {                                               //Mientras queden listas en el array de resultados
                         var currentCat = _listResults[0]._doc.listCat,                              //Variable que almacena la categoria actual
                             currentElem = 'undefined';                                              //Variable que almacena el elemento actual
-                        while (currentElem = _listResults.find((elem) => elem._doc.listCat === currentCat)) {                           //Mientras sigan quedando elementos de la categoria actual
-                            treeNode.push({ text: currentElem._doc.listTitle , id: hash.generate(currentElem._doc._id.toString()),       //Alamcenamos el elemento
-                                            icon: 'glyphicon glyphicon-list',
-                                            tags: ["<a href=\"/home/deleteList?listId=" + currentElem._doc._id + "\">Delete List</a>"]
-											//tags: ["<input class='btn btn-sm btn-primary' type='button' value='Delete List' onclick='deleteList()'</input>"]
-                            });   //Añadimos el enlace de borrado en una tag
-                            _listResults.splice(_listResults.indexOf(currentElem), 1);                                                  //Eliminamos el elemento del array de resultados
+                        while (currentElem = _listResults.find((elem) => elem._doc.listCat === currentCat)) {   //Mientras sigan quedando elementos de la categoria actual
+                            treeNode.push({ text: currentElem._doc.listTitle,                                   //Vamos llenando el array de listas
+                                            id: hash.generate(currentElem._doc._id.toString()),                 //Alamcenamos la id de la lista
+                                            icon: 'glyphicon glyphicon-list',                                   //Asigamos un icono a la lista
+                                            //Tag con boton que pasa el nombre y la categoria como argumento
+                                            tags: ["<input class=\"btn btn-sm btn-primary btn-block\" type=\"button\" value=\"Delete List\" onclick='deleteList(\"" +
+                                                   currentElem._doc.listTitle + "\", \"" + currentElem._doc.listCat + "\")'>"]
+                            }); 
+                            _listResults.splice(_listResults.indexOf(currentElem), 1);              //Eliminamos el elemento del array de resultados
                         }
-                        treeData.push({ text: currentCat, nodes: treeNode });                                           //Añadimos el array de listas al array de categorias 
-                        treeNode = [];                                                                                  //Reseteamos el array de listas para procesar la proxima categoria
+                        treeData.push({ text: currentCat, nodes: treeNode });                       //Añadimos el array de listas al array de categorias 
+                        treeNode = [];                                                              //Reseteamos el array de listas para procesar la proxima categoria
                     }
-                    res.send(treeData);                                                                                 //Enviamos el array de categorias a la vista
+                    res.send(treeData);                                                             //Enviamos el array de categorias a la vista
                  }
         });
 }
+//Funcion que muestra el contenido de la lista
 module.exports.viewList = function (req, res, next) {
 	let viewHtml;
     listModel.list.findOne({userName: req.session.user, listTitle: req.body.name, listCat: req.body.parent.text  }, (err, _list) => {
@@ -43,7 +46,7 @@ module.exports.viewList = function (req, res, next) {
         else if (!_list) debug('ERROR lista no encontrada', req.body.name, ':', req.body.parent);
         else {
             if (hash.verify(_list._id.toString()), req.body.id) {
-                res.render('listView.pug', { data: _list.listItems }, (err, html) => {
+                res.render('listView.pug', { name: _list.listTitle, data: _list.listItems }, (err, html) => {
                     if (err) console.log(err);
                     viewHtml = html;
                     res.send(viewHtml);

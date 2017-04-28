@@ -29,7 +29,7 @@ html
                 }
             }
             function onNodeSelected(event, node) {
-                $.post("/home/createList", {action:"edit", 
+                $.post("/home/manageList", {action:"edit", 
                                             parent : $("#tree").treeview("getParent", node), 
                                             name: node.text, 
                                             id: node.id}, (data) => {
@@ -37,12 +37,12 @@ html
                 });  
             }
             function createList() {
-                $.post("/home/createList", {action:"create"},(data) => {
+                $.post("/home/manageList", {action:"create"},(data) => {
                 $("#listView").html(data.toString());
                 });  
             }
             function deleteList(listName, listCat) {
-                $.get("/home/deleteList", {name: listName, cat:listCat}, ()=> updateTreeView());
+                $.get("/home/manageList", {name: listName, cat:listCat}, ()=> updateTreeView());
             }
     body
         div(class="container-fluid" id="index")
@@ -64,8 +64,8 @@ html
                                     b #{user}
         div(class="container-fluid" id="register")
             div(class="row")
-                div(class="col-xs-4")
+                div(class="col-xs-4 col-xs-offset-1")
                     div(id="treeLabel") #{user} list's
                     div(id="tree")
                     input(class="btn btn-primary btn-block" type="button" onclick="createList()" value="Create List")
-                div(class="col-xs-8" id="listView")
+                div(class="col-xs-6" id="listView")

@@ -6,7 +6,7 @@
 const listModel = require('../models/listModel.js');                                //Importamos el modelo de la lista
 const userModel = require('../models/userModel.js');                                //Modelo de datos del usuario
 const hash = require('password-hash'); 
-const debug = require('debug')('createList');							            //Modulo de mensajes de debug
+const debug = require('debug')('manageList');							            //Modulo de mensajes de debug
 //Funcion de carga de la pantalla de creacion de lista
 module.exports.createList = function (req, res, next) {
 	if(req.body.action=='create') {
@@ -35,7 +35,7 @@ module.exports.createList = function (req, res, next) {
 			else {
 				if (hash.verify(_list._id.toString()), req.body.id) {
 					module.exports.list = _list;
-					res.render('createList2.pug', {	user: req.session.user, 
+					res.render('manageList.pug', {	user: req.session.user, 
 													cats:[], 
 													cat: _list.listCat,
 													title: _list.listTitle,
@@ -62,7 +62,7 @@ module.exports.createList = function (req, res, next) {
 					cats.push(currentCat);                                           		            //Añadimos el array de listas al array de categorias 
 			}
 			cats.push('New');
-			res.render('createList2.pug', {	user: req.session.user,
+			res.render('manageList.pug', {	user: req.session.user,
 											cats: cats, 
 											cat: 'Choose category',
 											title: 'Type a title',
@@ -135,5 +135,12 @@ module.exports.saveList = function (req, res) {
 module.exports.addListCat = function (req, res) {
 	module.exports.list.listCat=req.body.campo1;
 	res.end('<div id="list_cat">' + req.body.campo1 + '</div>' );
+}
+//Funcion de borrado de una lista
+module.exports.deleteList = function (req, res, next) {
+    listModel.list.remove({ listTitle: req.query.name, listCat: req.query.cat }, (err) => {
+        if (err) debug('ERROR en el borrado de la lista:', req.query.name);
+        else res.end();
+    });
 }
 //Requerido por: /router/router.js

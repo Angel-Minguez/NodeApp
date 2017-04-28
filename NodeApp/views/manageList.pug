@@ -1,0 +1,77 @@
+﻿script.
+    $(document).ready(()=>{
+        if($("#selectCat").val() === 'New') $("#newCatForm").show();
+        $("#thEditTitle").hide();
+    });
+            function postLine() {
+                $.post("/home/manageList/addListItem_form", $("#listItemForm").serialize(), (data) => {
+                        $("#listContainer").append(data);
+                });
+            }
+            function postTitle() {
+                $.post("/home/manageList/addListTitle_form", $("#listTitleForm").serialize(), (data) => {
+                        $("#listContainer").append(data);
+                        $("#titleButton").attr("disabled", true);
+                });
+            }
+            function postCat() {
+                $.post("/home/manageList/addListCat_form", $("#newCatForm").serialize(), (data) => {
+                        $("#listContainer").append(data);
+                });
+            }
+            function saveList() {
+                $.post("/home/manageList/saveList_form",{cat:$("#selectCat").val()}, (data) => {
+                    if(data==='SAVE_OK') updateTreeView();
+                    else $("#H1").html('Error al guardar la lista');
+                });
+            }
+            function catChange() {
+                if($("#selectCat").val() === 'New') $("#newCatForm").show();
+            }
+            function editTitle(){
+                $("#thTitle").toggle();
+                $("#thEditTitle").toggle("fast");
+            }
+table(class="table")
+    thead
+        tr 
+            th(id="thTitle")
+                div(class="dropdown" id="dropdownTitle") #{title}
+                    button(class="btn btn-sm btn-primary dropdown-toggle" type="button" id="titleDropdown" data-toggle="dropdown") Options
+                        span(class="caret")
+                    ul(class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="menu1")
+                        li(role="presentation")
+                            a(role="menuitem" href="#" onclick="editTitle()") Edit title
+                        li(role="presentation")
+                            a(role="menuitem" href="#" onclick="deleteList('"+title+"', '"+cat+"')") Delete list
+            th(id="thEditTitle")
+                form(id="editTitleForm")
+                    div(class="form-group")
+                        input(type="text" class="form-control" id="editTitleText" value='title')
+                    input(type="button" class="btn btn-sm btn-primary" value="Change title")
+                    input(type="button" class="btn btn-sm btn-primary" value="Cancel")
+                
+    tbody
+        each val in elem
+            tr        
+                td!= val
+form(id="listTitleForm" method="post")
+    input(type= "text" name ="campo1" placeholder="List title")
+    input(type="reset" value ="Reset")
+    input(type="button" id="titleButton" value ="Set Title" onclick="postTitle()")
+div(id="cat") Category: #{cat}
+select(class="custom-select" id="selectCat" onchange="catChange()")
+    each val in cats
+        option!= val
+div(id="listContainer")
+    form(id="listItemForm" method="post")
+        input(type= "text" name ="campo1" placeholder="List item")
+        input(type="reset" value ="Reset")
+        input(type="button" value ="Set task" onclick="postLine()")
+    form(id="newCatForm" method="post" style="display:none;")
+        input(type= "text" name ="campo1" placeholder="New Cat")
+        input(type="reset" value ="Reset")
+        input(type="button" value ="Set task" onclick="postCat()")
+    form(id="listDone")
+        input(type="button" value="Done" onclick="saveList()")
+    

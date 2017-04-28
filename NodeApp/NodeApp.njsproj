@@ -47,10 +47,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="controller\authenticator.js" />
-    <Compile Include="controller\createList.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="controller\deleteList.js">
+    <Compile Include="controller\manageList.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="controller\home.js">
@@ -78,9 +75,6 @@
     <Compile Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
-    <Content Include="static\css\createList.css">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="static\css\home.css" />
     <Content Include="static\css\login.css" />
     <Content Include="static\css\index.css">
@@ -89,15 +83,9 @@
     <Content Include="static\css\theme.min.css" />
     <Content Include="static\favicon.ico" />
     <Content Include="static\img\info1.jpg" />
-    <Content Include="views\createList2.pug" />
-    <Content Include="views\createList.pug">
-      <SubType>Code</SubType>
-    </Content>
+    <Content Include="views\manageList.pug" />
     <Content Include="views\home.pug" />
     <Content Include="views\index.pug">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="views\listView.pug">
       <SubType>Code</SubType>
     </Content>
     <Content Include="views\login.pug" />

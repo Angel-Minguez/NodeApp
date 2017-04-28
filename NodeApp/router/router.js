@@ -11,12 +11,12 @@ module.exports = function (req, res, next) {        //Funcion de routeo de reque
     app.post('/register_form', require('../controller/register.js').userRegisterForm);
     app.get ('/home', require('../controller/home.js').home);
     app.get ('/home/getTreeData', require('../controller/home.js').getTreeData);
-	app.post('/home/createList', require('../controller/createList.js').createList);
-	app.get ('/home/deleteList', require('../controller/deleteList.js').deleteList);
-    app.post('/home/createList/addListCat_form', require('../controller/createList.js').addListCat);
-	app.post('/home/createList/addListTitle_form', require('../controller/createList.js').addListTitle);
-    app.post('/home/createList/addListItem_form', require('../controller/createList.js').addListItem);
-	app.post('/home/createList/saveList_form', require('../controller/createList.js').saveList);
+	app.post('/home/manageList', require('../controller/manageList.js').createList);
+	app.get ('/home/manageList', require('../controller/manageList.js').deleteList);
+    app.post('/home/manageList/addListCat_form', require('../controller/manageList.js').addListCat);
+	app.post('/home/manageList/addListTitle_form', require('../controller/manageList.js').addListTitle);
+    app.post('/home/manageList/addListItem_form', require('../controller/manageList.js').addListItem);
+	app.post('/home/manageList/saveList_form', require('../controller/manageList.js').saveList);
     app.get ('/logout', require('../controller/logout.js'));
 	next();//Invocamos el siguiente elemento de la pila de middleware  
 }

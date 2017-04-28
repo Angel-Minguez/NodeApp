@@ -20,7 +20,7 @@ body {
 	background-color: rgb(233, 84, 32);
 	border-radius: 0px;
 }
-.badge .btn{
+.badge .btn, .dropdown .btn{
     padding:0px 5px 0px 5px;
 }
 .a:hover {
@@ -42,4 +42,24 @@ li.list-group-item.node-tree {
 span.badge {
     padding:0 0 0 0;
 }
-
+#titleDropdown{
+    float: right;
+}
+dropdown{
+    float:right;
+}
+.dropdown .btn, .dropdown-menu{
+    padding:0px 0px 0px 0px;
+    width: 30%;
+}
+.dropdown-menu>li>a{
+    padding:0px 0px 0px 10px;
+    font-size: 12px;
+}
+#editTitleText{
+    width:70%;
+    float: left;
+}
+#editTitleButton, #editTitleCancel{
+    width:10%;
+}

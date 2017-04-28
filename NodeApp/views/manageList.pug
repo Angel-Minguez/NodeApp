@@ -9,9 +9,9 @@
                 });
             }
             function postTitle() {
-                $.post("/home/manageList/addListTitle_form", $("#listTitleForm").serialize(), (data) => {
-                        $("#listContainer").append(data);
-                        $("#titleButton").attr("disabled", true);
+                $.post("/home/manageList/addListTitle_form", {campo1: $("#editTitleText").val()}, (data) => {
+                    saveList();
+                    updateTreeView();
                 });
             }
             function postCat() {
@@ -32,25 +32,26 @@
                 $("#thTitle").toggle();
                 $("#thEditTitle").toggle("fast");
             }
-table(class="table")
+table(class="table table-borderless")
     thead
-        tr 
+        tr
             th(id="thTitle")
-                div(class="dropdown" id="dropdownTitle") #{title}
-                    button(class="btn btn-sm btn-primary dropdown-toggle" type="button" id="titleDropdown" data-toggle="dropdown") Options
-                        span(class="caret")
-                    ul(class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="menu1")
-                        li(role="presentation")
-                            a(role="menuitem" href="#" onclick="editTitle()") Edit title
-                        li(role="presentation")
-                            a(role="menuitem" href="#" onclick="deleteList('"+title+"', '"+cat+"')") Delete list
+                div(class="col-xs-12")
+                    div(class="dropdown" id="dropdownTitle") #{title}
+                        button(class="btn btn-sm btn-primary dropdown-toggle" type="button" id="titleDropdown" data-toggle="dropdown") Options
+                            span(class="caret")
+                        ul(class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="menu1")
+                            li(role="presentation")
+                                a(role="menuitem" href="#" onclick="editTitle()") Edit title
+                            li(role="presentation")
+                                a(role="menuitem" href="#" onclick="deleteList('"+title+"', '"+cat+"')") Delete list
             th(id="thEditTitle")
-                form(id="editTitleForm")
-                    div(class="form-group")
-                        input(type="text" class="form-control" id="editTitleText" value='title')
-                    input(type="button" class="btn btn-sm btn-primary" value="Change title")
-                    input(type="button" class="btn btn-sm btn-primary" value="Cancel")
-                
+                div(class="col-xs-8")
+                    input(type="text" class="form-control input-sm" id="editTitleText" value= title)
+                div(class="col-xs-2")
+                    input(type="button" class="btn btn-sm btn-primary btn-block" value="Edit" id="listTitleButton" name="campo1" onclick="postTitle()")
+                div(class="col-xs-2")
+                    input(type="button" class="btn btn-sm btn-primary btn-block" value="Cancel")
     tbody
         each val in elem
             tr        

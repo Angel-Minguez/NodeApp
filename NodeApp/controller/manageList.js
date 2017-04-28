@@ -75,6 +75,7 @@ module.exports.createList = function (req, res, next) {
 }
 //Funcion para añadir titulo a la lista (el titulo ha de ser unico)
 module.exports.addListTitle = function (req, res) {   							    
+		console.log('----->', req.body.campo1);
 		listModel.list.find({                                                       //Buscamos otras listas de la misma categoria
             'userName': req.session.user,                                           //Y del mismo usuario
             'listCreationTitle': req.body.campo1                                    

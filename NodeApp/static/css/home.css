@@ -20,7 +20,7 @@ body {
 	background-color: rgb(233, 84, 32);
 	border-radius: 0px;
 }
-.badge .btn, .dropdown .btn{
+.badge .btn/*, .dropdown .btn*/{
     padding:0px 5px 0px 5px;
 }
 .a:hover {
@@ -39,7 +39,7 @@ li.list-group-item.node-tree {
     padding-top:5px;
     padding-bottom:5px;
 }
-span.badge {
+span.badge{
     padding:0 0 0 0;
 }
 #titleDropdown{
@@ -48,18 +48,26 @@ span.badge {
 dropdown{
     float:right;
 }
-.dropdown .btn, .dropdown-menu{
+ .dropdown-menu{
     padding:0px 0px 0px 0px;
-    width: 30%;
+    /*padding-top:5px;*/
+	
+	width: 30%;
 }
-.dropdown-menu>li>a{
-    padding:0px 0px 0px 10px;
-    font-size: 12px;
+.dropdown .btn{
+	padding:0px 0px 0px 0px;
+	width: 30%;
 }
 #editTitleText{
-    width:70%;
     float: left;
 }
-#editTitleButton, #editTitleCancel{
-    width:10%;
+#editTitleText, #form-group{
+	padding:0px 0px 0px 0px;
+	font-size:14px;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+	border:0;
+}
+.col-xs-2, col-xs-8{
+	vertical-align:middle;
 }

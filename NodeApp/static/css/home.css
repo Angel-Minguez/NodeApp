@@ -21,7 +21,7 @@ body {
 	border-radius: 0px;
 }
 .badge .btn/*, .dropdown .btn*/{
-    padding:0px 5px 0px 5px;
+    /*padding:0px 5px 0px 5px;*/
 }
 .a:hover {
     text-decoration:none;
@@ -48,26 +48,35 @@ span.badge{
 dropdown{
     float:right;
 }
- .dropdown-menu{
+.dropdown-menu{
     padding:0px 0px 0px 0px;
     /*padding-top:5px;*/
 	
-	width: 30%;
+	/*width: 100%;*/
 }
-.dropdown .btn{
-	padding:0px 0px 0px 0px;
-	width: 30%;
+.btn-group, btn-group .btn{
+    width: 100%;
 }
 #editTitleText{
     float: left;
 }
-#editTitleText, #form-group{
+/*#editTitleText*/.input-sm /*,#form-group*/{
 	padding:0px 0px 0px 0px;
 	font-size:14px;
+    width:100%;
 }
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+/*.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
 	border:0;
+}*/
+.col-xs-2, .col-xs-4, .col-xs-8, .col-xs-10, col-xs-12{
+	line-height:30px;
 }
-.col-xs-2, col-xs-8{
-	vertical-align:middle;
+.form-control {
+    height:30px;
+}
+.bootstrap-select.btn-group.dropdown-menu li > a {
+    text-align: center;
+}
+#thEditTitle, #addItemForm{
+    display:none;
 }

@@ -63,6 +63,9 @@
     <Compile Include="controller\register.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="models\itemModel.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="models\listModel.js">
       <SubType>Code</SubType>
     </Compile>

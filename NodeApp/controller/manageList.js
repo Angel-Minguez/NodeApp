@@ -19,7 +19,7 @@ module.exports.createList = function (req, res, next) {
 					listCat: 'undefined',                                               //Categoria de la lista
 					listTitle: 'undefined',                                             //Titulo de la lista
 					listCreationTitle: 'undefined',                                     //Titulo original de creacion
-					listItems: [],                                                      //Elementos de la lista
+                    listItems: [],                                                      //Elementos de la lista
 					listCreationTime: 'undefined'                                       //Fecha de la creacion de la lista
 					});    
 		});
@@ -62,10 +62,11 @@ module.exports.createList = function (req, res, next) {
 					cats.push(currentCat);                                           		            //Añadimos el array de listas al array de categorias 
 			}
 			cats.push('New');
-			res.render('manageList.pug', {	user: req.session.user,
+            res.render('manageList.pug', {  action: 'create',
+                                            user: req.session.user,
 											cats: cats, 
 											cat: 'Choose category',
-											title: 'Type a title',
+											title: 'Choose a title',
 											elem:[]}, (err, html) => {
 				if (err) debug(err.msg);
 				res.send(html);
@@ -75,7 +76,6 @@ module.exports.createList = function (req, res, next) {
 }
 //Funcion para añadir titulo a la lista (el titulo ha de ser unico)
 module.exports.addListTitle = function (req, res) {   							    
-		console.log('----->', req.body.campo1);
 		listModel.list.find({                                                       //Buscamos otras listas de la misma categoria
             'userName': req.session.user,                                           //Y del mismo usuario
             'listCreationTitle': req.body.campo1                                    
@@ -114,7 +114,7 @@ module.exports.saveList = function (req, res) {
         if (err) debug('Error en user.findOne userName: ', req.session.user);       //Control de error en la busqueda
         else if (!_user) debug('ERROR: usuario no encontrado:', req.session.user);  //Usuario no encontrado (no deberia ocurrir)
             else {
-				//_user.numberOfLists++;                                              //Se añade uno al numero de listas que tiene el usuario
+				//_user.numberOfLists++;                                            //Se añade uno al numero de listas que tiene el usuario
 				_user.save((err)=> {                                                //Se guarda el numero modificado
 					if(err) debug('ERROR guardando cambios:', err.message);         //Se muestra error en caso de haberlo                             
 					else debug(_user);                                              //Se muestra al usuario modificado

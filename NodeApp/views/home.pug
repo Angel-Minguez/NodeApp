@@ -6,14 +6,17 @@ html
         script(src ="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js")
         script(src="./node_modules/bootstrap/dist/js/bootstrap.min.js")
         script(src="./node_modules/bootstrap-treeview/public/js/bootstrap-treeview.js")
+        script(src="./node_modules/bootstrap-select/dist/js/bootstrap-select.min.js")
         link(href="./node_modules/bootstrap-treeview/public/css/bootstrap-treeview.css" rel="stylesheet")
         link(href="./static/css/theme.min.css" rel="stylesheet")
         link(href="./static/css/home.css" rel="stylesheet")
+        link(href="./node_modules/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet")
         script.
-            $(document).ready(updateTreeView());
-            function updateTreeView(data) {
+            $(document).ready(()=>{
+                updateTreeView()
+            });
+            function updateTreeView() { 
                 var treeData=[];
-                if(!data) {
                     $.get("/home/getTreeData", (data) => {
                         treeData=data;
                         $("#tree").treeview({data:treeData,
@@ -26,7 +29,6 @@ html
                                          onhoverColor: "#dddddd",
                                          selectedColor: "black"});
                     });
-                }
             }
             function onNodeSelected(event, node) {
                 $.post("/home/manageList", {action:"edit", 
@@ -66,6 +68,6 @@ html
             div(class="row")
                 div(class="col-xs-4 col-xs-offset-1")
                     div(id="treeLabel") #{user} list's
-                    div(id="tree")
                     input(class="btn btn-primary btn-block" type="button" onclick="createList()" value="Create List")
+                    div(id="tree")     
                 div(class="col-xs-6" id="listView")

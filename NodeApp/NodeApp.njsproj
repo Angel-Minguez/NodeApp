@@ -47,6 +47,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="controller\authenticator.js" />
+    <Compile Include="controller\manageItem.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="controller\manageList.js">
       <SubType>Code</SubType>
     </Compile>

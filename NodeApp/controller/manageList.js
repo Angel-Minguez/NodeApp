@@ -1,5 +1,5 @@
 ﻿/***************************************************************************************************************/
-/*  Modulo: Modulo controlador de /home/createList                                                             */
+/*  Modulo: Modulo controlador de /home/manageList                                                             */
 /*  Autor:  Angel Minguez Burillo                                                                              */
 /***************************************************************************************************************/
 'use strict'
@@ -35,8 +35,10 @@ module.exports.createList = function (req, res, next) {
 			else {
 				if (hash.verify(_list._id.toString()), req.body.id) {
 					module.exports.list = _list;
-					res.render('manageList.pug', {	user: req.session.user, 
-													cats:[], 
+                    res.render('manageList.pug', {  listId: req.body.id,
+                                                    user: req.session.user, 
+                                                    cats: [],
+                                                    catCount: 0,
 													cat: _list.listCat,
 													title: _list.listTitle,
 													elem:_list.listItems}, (err, html) => {
@@ -59,12 +61,13 @@ module.exports.createList = function (req, res, next) {
 					while (currentElem =_listResults.find((elem)=>elem._doc.listCat === currentCat)) {  //Mientras sigan quedando elementos de la categoria actual
 						_listResults.splice(_listResults.indexOf(currentElem), 1);                      //Eliminamos el elemento del array de resultados
 					}
-					cats.push(currentCat);                                           		            //Añadimos el array de listas al array de categorias 
+                    cats.push(currentCat);                                         		                //Añadimos el array de listas al array de categorias 
 			}
-			cats.push('New');
+			//cats.push('New');
             res.render('manageList.pug', {  action: 'create',
                                             user: req.session.user,
-											cats: cats, 
+                                            cats: cats,
+                                            catCount: cats.length,
 											cat: 'Choose category',
 											title: 'Choose a title',
 											elem:[]}, (err, html) => {
@@ -73,32 +76,6 @@ module.exports.createList = function (req, res, next) {
 			});                                                               
 		});
 	}	
-}
-//Funcion para añadir titulo a la lista (el titulo ha de ser unico)
-module.exports.addListTitle = function (req, res) {   							    
-		listModel.list.find({                                                       //Buscamos otras listas de la misma categoria
-            'userName': req.session.user,                                           //Y del mismo usuario
-            'listCreationTitle': req.body.campo1                                    
-        }, (err, _listResults) => {
-            if (err) debug('ERROR en user.findOne listCat: ', module.exports.list.listCat);       //Si se produce un error en la busqueda lo mostramos
-            else if (_listResults.length > 0) {                                                   //Si ya existen listas con ese titulo en la categoria
-                    debug('Numero de listas encontradas:', _listResults.length);                  //Mostramos el numero de listas encontradas
-                    module.exports.list.listTitle = req.body.campo1 + '(' + _listResults.length.toString()+ ')';                    //Aginamos al titulo es nombre de creacion + un ordinal
-                    let count = 1;                                                                                                  //Inicializamos el contador de ocurrencias del nuevo titulo+ordinal creado
-                    while (_listResults.findIndex( (_list) => _list._doc.listTitle === module.exports.list.listTitle) >= 0) {       //Buscamos en el array de resultados ocurrencias del ordinal generado
-                        module.exports.list.listTitle = req.body.campo1 + '(' + (count++).toString() + ')';                         //Si ya esta cogido ese nombre generamos el siguiente y volvemos a chequear
-                    }
-                 }
-                 else {			                                                                                //Si no existen titulos con ese nombre en la categoria
-                    debug('Primera lista con nombre: ', req.body.campo1);                                       //Lo notificamos
-                    module.exports.list.listTitle = req.body.campo1;	                                        //Añadimos el titulo a nuestro objeto lista
-                 }
-            let listItemHtml = '<div id="list_item">TITLE: ' + module.exports.list.listTitle + '</div>';        //HTML que añadimos a la pagina
-            module.exports.list.listCreationTitle = req.body.campo1;                                            //Añadimos el titulo de creacion son modificar
-            debug(module.exports.list.userName);                                                                //Mostramos en debug el usuario
-            debug(module.exports.list.listTitle);                                                               //Y el titulo final de la lista
-            res.send(listItemHtml);											                                    //Actualizamos la lista
-        });
 }
 //Funcion para añadir nuevos elementos a la lista
 module.exports.addListItem = function (req, res) {   							    //Si el item no es una cadena vacia
@@ -121,16 +98,37 @@ module.exports.saveList = function (req, res) {
 				});
 			}
 	});
-	module.exports.list.listCreationTime = new Date().toUTCString();                //Terminamos de poblar el objeto lista
-	if(module.exports.list.listCat=='undefined') module.exports.list.listCat = req.body.cat;
-	debug(module.exports.list);                                                     //Lo mostramos en debug
-	module.exports.list.save((err) => {                                             //Lo guardamos en la bd
-			if(err) debug('ERROR guardando lista:', err.message);                   //Mostramos error en el guardado de la lista
-			else {                                                                  //En caso de ir todo bien
-				debug(module.exports.list);                                         //Mostramos la lista en debug
-				res.send('SAVE_OK');                                                //Mandamos a la vista la señal de que el guardado ha sido exitoso
-			}
-	});
+    listModel.list.find({                                                           //Buscamos otras listas de la misma categoria
+        'userName': req.session.user,                                               //Y del mismo usuario
+        'listCreationTitle': req.body.campo1
+    }, (err, _listResults) => {
+        if (err) debug('ERROR en user.findOne listCat: ', module.exports.list.listCat);         //Si se produce un error en la busqueda lo mostramos
+        else if (_listResults.length > 0) {                                                     //Si ya existen listas con ese titulo en la categoria
+            debug('Numero de listas encontradas:', _listResults.length);                        //Mostramos el numero de listas encontradas
+            module.exports.list.listTitle = req.body.campo1 + '(' + _listResults.length.toString() + ')';               //Aginamos al titulo es nombre de creacion + un ordinal
+            let count = 1;                                                                                              //Inicializamos el contador de ocurrencias del nuevo titulo+ordinal creado
+            while (_listResults.findIndex((_list) => _list._doc.listTitle === module.exports.list.listTitle) >= 0) {    //Buscamos en el array de resultados ocurrencias del ordinal generado
+                module.exports.list.listTitle = req.body.campo1 + '(' + (count++).toString() + ')';                     //Si ya esta cogido ese nombre generamos el siguiente y volvemos a chequear
+            }
+        }
+        else {			                                                                                //Si no existen titulos con ese nombre en la categoria
+            debug('Primera lista con nombre: ', req.body.campo1);                                       //Lo notificamos
+            module.exports.list.listTitle = req.body.campo1;	                                        //Añadimos el titulo a nuestro objeto lista
+        }
+        module.exports.list.listCreationTitle = req.body.campo1;                                        //Añadimos el titulo de creacion son modificar
+        debug(module.exports.list.userName);                                                            //Mostramos en debug el usuario
+        debug(module.exports.list.listTitle);                                                           //Y el titulo final de la lista
+        module.exports.list.listCreationTime = new Date().toUTCString();                                //Terminamos de poblar el objeto lista
+        if (module.exports.list.listCat == 'undefined') module.exports.list.listCat = req.body.cat;
+        debug(module.exports.list);                                                                     //Lo mostramos en debug
+        module.exports.list.save((err) => {                                                             //Lo guardamos en la bd
+            if (err) debug('ERROR guardando lista:', err.message);                                      //Mostramos error en el guardado de la lista
+            else {                                                                                      //En caso de ir todo bien
+                debug(module.exports.list);                                                             //Mostramos la lista en debug
+                res.send('SAVE_OK');                                                                    //Mandamos a la vista la señal de que el guardado ha sido exitoso
+            }
+        });
+    });   
 }
 //Funcion que añade la categoria a la lista
 module.exports.addListCat = function (req, res) {

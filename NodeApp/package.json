@@ -28,6 +28,7 @@
     "password-hash": "^1.2.2",
     "bootstrap": "^3.3.7",
 	  "bootstrap-treeview": "^1.2.0",
-    "bootstrap-select": ""
+    "bootstrap-select": "",
+    "bootstrap-datetime-picker": "^2.4.4"
   }
 }

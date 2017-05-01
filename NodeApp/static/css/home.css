@@ -77,6 +77,21 @@ dropdown{
 .bootstrap-select.btn-group.dropdown-menu li > a {
     text-align: center;
 }
+
+
+
 #thEditTitle, #addItemForm{
+    display:none;
+}
+#addItemTextDiv {
+    padding-bottom: 10px;
+}
+.minute.active, .hour.active, .day.active {  
+    border-radius:0px;
+}
+.input-group-addon {
+    padding:0px 5px 0px 5px;
+}
+.alert {
     display:none;
 }

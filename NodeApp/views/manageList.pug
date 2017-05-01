@@ -1,38 +1,57 @@
 ﻿script.
     $(document).ready(()=>{
+        $().alert();
         if($("#selectCat").val() === 'New') $("#newCatForm").show();
-        $("#createCatText").attr("disabled", true);
+        if(#{catCount} > 0) $("#createCatText").attr("disabled", true);
+        else $("#createCatText").attr("disabled", false);
         $(".selectpicker").selectpicker();
+        $(".form_datetime").datetimepicker({
+            format: "dd MM yyyy - hh:ii",
+            autoclose: true,
+            todayBtn: false,
+            pickerPosition: "bottom-left"
+        });
     });
             function addTask(){
                 $("#addItemButton").toggle();
                 $("#addItemForm").toggle();
                 $("#addItemText").focus();
             }
-            function postLine() {
-                $.post("/home/manageList/addListItem_form", $("#listItemForm").serialize(), (data) => {
-                        $("#listContainer").append(data);
-                });
-            }
-            function postTitle(){
-                $.post("/home/manageList/addListTitle_form", {campo1: $("#createTitleText").val()}, (data) => {
-                });
+            function postItem(listId){
+                $.post("/home/manageItem/addItem", { text: $("#addItemText").val(),
+                                                     priority: $("#selectPriority").val(),
+                                                     time: $("#timeItem").val(),
+                                                     listId: listId},
+                    (data)=>{}
+                );
             }
             function editTitle() {
-                $.post("/home/manageList/addListTitle_form", {campo1: $("#editTitleText").val()}, (data) => {
-                    saveList();
+                $.post("/home/manageList/saveList_form", {cat:$("#selectCat").val(), campo1: $("#editTitleText").val()}, (data) => {
                     $("#titleDiv").text($("#editTitleText").val());
+                    if(data==='SAVE_OK') updateTreeView();
                     showEditTitle();
                 });
             }
-            function postCat() {
-                $.post("/home/manageList/addListCat_form", $("#newCatForm").serialize(), (data) => {
-                        $("#listContainer").append(data);
-                });
-            }
             function saveList() {
-                $.post("/home/manageList/saveList_form",{cat:$("#selectCat").val()}, (data) => {
-                    if(data==='SAVE_OK') updateTreeView();
+                var category;
+                if(!$("#createCatText").val()){
+                    $("#createCatText").focus();
+                    $("#errorMessage").text("Please choose a category");
+                    $(".alert").show();
+                    return;
+                }
+                if ($("#selectCat").val()!== 'New') category = $("#selectCat").val();
+                else category = $("#createCatText").val()
+                if(!$("#createTitleText").val()) {
+                    $("#createTitleText").focus();
+                    $("#errorMessage").text("Please add a title to your list");
+                    $(".alert").show(); 
+                    return;
+                }
+                $.post("/home/manageList/saveList_form", { cat: category, campo1: $("#createTitleText").val() }, (data) => {
+                    if(data==='SAVE_OK') updateTreeView( () => {
+                        $("#tree").treeview("selectNode", $("#tree").treeview("search", [$("#createTitleText").val()]));
+                    });       
                 });
             }
             function catChange() {
@@ -54,7 +73,7 @@
                 $("#tree").treeview("selectNode", $("#tree").treeview("getSelected"));
             }
 div(class="container-fluid")
-    div(class="col-xs-12")
+    div(class="col-xs-12")     
         table(class="table table-borderless")
             thead
                 tr
@@ -63,19 +82,19 @@ div(class="container-fluid")
                             if(action==='create')
                                 div(class="row")
                                     div(class="btn-group")
-                                        div(class="col-xs-10")
+                                        div(class="col-xs-12")
                                             input(type="text" class="form-control input-sm" id="createTitleText" value= title)
-                                        div(class="col-xs-2")
-                                            button(class="btn btn-sm btn-primary btn-block" type="button" id="titleDropdown" onclick="postTitle()") Set title
                                 br
                                 div(class="row")
                                     div(class="btn-group")
-                                        div(class="col-xs-10" id="newCatForm")
+                                        div(class="col-xs-9" id="newCatForm")
                                             input(type="text" class="form-control input-sm" id="createCatText" value= cat)
-                                        div(class="col-xs-2")
+                                        div(class="col-xs-3")
                                             select(class="selectpicker" id="selectCat" data-style="btn-primary btn-sm" data-width="100%" onchange="catChange()")
                                                 each val in cats
                                                     option!= val
+                                                optgroup(class="select-hr")
+                                                    option New
                             else
                                 div(class="row")
                                     div(class="col-xs-10" id="titleDiv") #{title}
@@ -107,27 +126,30 @@ div(class="container-fluid")
                 tr(id="addItemForm")     
                     td
                         div(class="row")
-                            div(class="col-xs-12")
+                            div(class="col-xs-12" id="addItemTextDiv")
                                 input(type="text" class="form-control input-sm" id="addItemText" placeholder="Add a description of your new task")
                         div(class="row")
                             div(class="col-xs-2")
-                                button(class="btn btn-sm btn-primary btn-block" type="button" onclick="") Submit
+                                button(class="btn btn-sm btn-primary btn-block" type="button" onclick="postItem('"+listId+"')") Submit
                             div(class="col-xs-2")
                                 button(class="btn btn-sm btn-primary btn-block" type="button" onclick="") Cancel
+                            div(class="col-xs-2")
+                            div(class="col-xs-2")
+                                select(class="selectpicker" id="selectPriority" data-style="btn-sm btn-primary" data-width="100%" onchange="priorityChange()")
+                                    optgroup(label="Priority")
+                                        option Low
+                                        option Normal
+                                        option High
                             div(class="col-xs-4")
-                            div(class="col-xs-2")
-                                button(class="btn btn-sm btn-primary btn-block" type="button" onclick="") Priority
-                            div(class="col-xs-2")
-                                button(class="btn btn-sm btn-primary btn-block" type="button" onclick="") Date
+                                div(class="input-group date form_datetime")
+                                    input(type="text" class="input-sm form-control" id="timeItem" placeholder=" Date & Time" readonly)
+                                    span(class="input-group-addon")
+                                        span(class="glyphicon glyphicon-calendar")
 
-    //tbody
-        //each val in elem
-            //tr        
-                //td(id="thListItem")
-                    //div(class="row")
-                        //div(class="col-xs-10")
-                            //input(class="form-control" type="text" value= val disabled="true")
-div(id="listContainer")
+div(id="listContainer" class="col-xs-12")
     form(id="listDone")
-        input(type="button" value="Done" onclick="saveList()")
+        input(type="button" class="btn btn-primary" value="Done" onclick="saveList()")
+    div(class="alert alert-danger alert-dismissible" role="alert" id="formAlert")
+        button(type="button" class="close" data-dismiss="alert" aria-label="Close") &times
+        p(id="errorMessage") Error message
     

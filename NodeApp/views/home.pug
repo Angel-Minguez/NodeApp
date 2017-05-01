@@ -7,20 +7,23 @@ html
         script(src="./node_modules/bootstrap/dist/js/bootstrap.min.js")
         script(src="./node_modules/bootstrap-treeview/public/js/bootstrap-treeview.js")
         script(src="./node_modules/bootstrap-select/dist/js/bootstrap-select.min.js")
+        script(src="./node_modules/bootstrap-datetime-picker/js/bootstrap-datetimepicker.min.js")
         link(href="./node_modules/bootstrap-treeview/public/css/bootstrap-treeview.css" rel="stylesheet")
         link(href="./static/css/theme.min.css" rel="stylesheet")
         link(href="./static/css/home.css" rel="stylesheet")
         link(href="./node_modules/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet")
+        link(href="./node_modules/bootstrap-datetime-picker/css/bootstrap-datetimepicker.min.css" rel="stylesheet")
         script.
             $(document).ready(()=>{
                 updateTreeView()
             });
-            function updateTreeView() { 
+            function updateTreeView(callback) { 
                 var treeData=[];
                     $.get("/home/getTreeData", (data) => {
                         treeData=data;
                         $("#tree").treeview({data:treeData,
                                          showTags: true,
+                                         highlightSearchResults: false,
                                          expandIcon: "glyphicon glyphicon-tags",
                                          collapseIcon: "glyphicon glyphicon-tags",
                                          onNodeSelected: onNodeSelected,
@@ -28,6 +31,7 @@ html
                                          selectedBackColor: "#dddddd",
                                          onhoverColor: "#dddddd",
                                          selectedColor: "black"});
+                    if(callback) callback();
                     });
             }
             function onNodeSelected(event, node) {

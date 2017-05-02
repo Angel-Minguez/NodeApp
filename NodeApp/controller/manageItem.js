@@ -11,14 +11,29 @@ const manageList = require('../controller/manageList.js');
 const debug = require('debug')('manageItem');							            //Modulo de mensajes de debug
 //Funcion que acepta y guarda los datos del item en la bd
 module.exports.addItem = function (req, res) {
-    module.exports.item = new itemModel.item({
+    let date= new Date();
+	if(req.body.time!="") date = Date(req.body.time); 
+	module.exports.item = new itemModel.item({
         listId : manageList.list._id,    
         itemPriority: req.body.priority,                                            //Prioridad de la tarea
-        itemExpireTime: new Date(req.body.time),                                    //Fecha en la que la tarea vence
+        itemExpireTime:date,   														//Fecha en la que la tarea vence
         itemText: req.body.text,                                                    //Texto de la tarea
         itemArchived: false,                                                        //Tarea activa o archivada
         itemDone: false                                                             //Tarea finalizada o incompleta      
     });
-    console.log(module.exports.item);
-    console.log(module.exports.item.itemExpireTime);
+	//Guardamos el item
+	module.exports.item.save((err)=> {
+		if(err) debug("ERROR: en item.save", err.message);
+		else {
+			debug("Guardado con exito:", module.exports.item);
+			//Añadimos la id del item al array de la lista
+			manageList.list.listItems.push(module.exports.item._doc._id);
+			//Guardamos la lista
+			manageList.list.save((err)=>{
+				if(err) debug("ERROR: en list.save", err.message);
+				else debug("Guardado con exito:", manageList.list);
+			});
+			res.end("SAVE_OK");
+		}
+	});		
 }

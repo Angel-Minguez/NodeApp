@@ -5,6 +5,7 @@
 'use strict'
 const listModel = require('../models/listModel.js');                                //Importamos el modelo de la lista
 const userModel = require('../models/userModel.js');                                //Modelo de datos del usuario
+const itemModel = require('../models/itemModel.js');
 const hash = require('password-hash'); 
 const debug = require('debug')('manageList');							            //Modulo de mensajes de debug
 //Funcion de carga de la pantalla de creacion de lista
@@ -35,16 +36,23 @@ module.exports.createList = function (req, res, next) {
 			else {
 				if (hash.verify(_list._id.toString()), req.body.id) {
 					module.exports.list = _list;
-                    res.render('manageList.pug', {  listId: req.body.id,
-                                                    user: req.session.user, 
-                                                    cats: [],
-                                                    catCount: 0,
-													cat: _list.listCat,
-													title: _list.listTitle,
-													elem:_list.listItems}, (err, html) => {
-						console.log(_list.listTitle);
-						if (err) debug(err.msg);
-						res.send(html);
+                    let items =[];
+					itemModel.item.find({listId: _list._id}, (err, _itemResult) => {
+						_itemResult.forEach((_item) => {items.push({text: _item.itemText,
+																	priority: _item.itemPriority,
+																	expire: _item.itemExpireTime,
+																	done: _item.itemDone});
+						});
+						res.render('manageList.pug', {	listId: req.body.id,
+														user: req.session.user, 
+														cats: [],
+														catCount: 0,
+														cat: _list.listCat,
+														title: _list.listTitle,
+														elem: items}, (err, html) => {
+							if (err) debug(err.msg);
+							res.send(html);
+						});
 					});                                                               
 				}
 				else debug('ERROR en listModel.find, HASH incorrecto', req.body.name, ':', req.body.parent);
@@ -76,14 +84,6 @@ module.exports.createList = function (req, res, next) {
 			});                                                               
 		});
 	}	
-}
-//Funcion para añadir nuevos elementos a la lista
-module.exports.addListItem = function (req, res) {   							    //Si el item no es una cadena vacia
-    if (req.body.campo1)  module.exports.list.listItems.push(req.body.campo1);	    //La añadimos a nuestro objeto lista
-    let listItemHtml = '<div id="list_item">' + req.body.campo1 + '</div>';         //HTML que añadimos a la pagina
-    debug(module.exports.list.userName);                                            
-    debug(module.exports.list.listItems);
-    res.send(listItemHtml);											                //Actualizamos la lista
 }
 //Funcion que guarda la lista completada en la bd
 module.exports.saveList = function (req, res) {

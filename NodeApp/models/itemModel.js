@@ -9,7 +9,7 @@ var itemSchema = mongoose.Schema({                              //Esquema del do
     itemPriority: String,                                       //Prioridad de la tarea
     itemExpireTime: Date,                                       //Fecha en la que la tarea vence
     itemText: String,                                           //Texto de la tarea
-    list: { type: mongoose.Schema.Types.ObjectId, ref: listModel },   //Id de la lista que la contiene
+    listId: { type: mongoose.Schema.Types.ObjectId, ref: listModel },   //Id de la lista que la contiene
     itemArchived: Boolean,                                      //Tarea activa o archivada
     itemDone: Boolean                                           //Tarea finalizada o incompleta
 });

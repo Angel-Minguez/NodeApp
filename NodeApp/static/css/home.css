@@ -20,9 +20,6 @@ body {
 	background-color: rgb(233, 84, 32);
 	border-radius: 0px;
 }
-.badge .btn/*, .dropdown .btn*/{
-    /*padding:0px 5px 0px 5px;*/
-}
 .a:hover {
     text-decoration:none;
 }
@@ -50,9 +47,6 @@ dropdown{
 }
 .dropdown-menu{
     padding:0px 0px 0px 0px;
-    /*padding-top:5px;*/
-	
-	/*width: 100%;*/
 }
 .btn-group, btn-group .btn{
     width: 100%;
@@ -60,16 +54,15 @@ dropdown{
 #editTitleText{
     float: left;
 }
-/*#editTitleText*/.input-sm /*,#form-group*/{
+.input-sm {
 	padding:0px 0px 0px 0px;
 	font-size:14px;
     width:100%;
 }
-/*.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-	border:0;
-}*/
-.col-xs-2, .col-xs-4, .col-xs-8, .col-xs-10, col-xs-12{
+.col-xs-2, .col-xs-4, .col-xs-8, .col-xs-10, .col-xs-12{
 	line-height:30px;
+	display:table-cell; 
+	vertical-align:middle;
 }
 .form-control {
     height:30px;
@@ -77,9 +70,6 @@ dropdown{
 .bootstrap-select.btn-group.dropdown-menu li > a {
     text-align: center;
 }
-
-
-
 #thEditTitle, #addItemForm{
     display:none;
 }
@@ -94,4 +84,9 @@ dropdown{
 }
 .alert {
     display:none;
+}
+#deleteItemIcon, #optionsItemIcon {
+	float:right;
+	padding-left:10px;
+	display:inline-block;
 }

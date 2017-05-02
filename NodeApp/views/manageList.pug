@@ -126,7 +126,9 @@ div(class="container-fluid")
                     tr(id="listItem")
                         td
                             div(class="row")
-                                div(class="col-xs-12")!= val.text				
+                                div(class="col-xs-12")!= val.text
+                                    span(id="deleteItemIcon" class="glyphicon glyphicon-remove" onclick="")
+                                    span(id="optionsItemIcon" class="glyphicon glyphicon-option-horizontal" onclick="")
                 tr(id="addItemButton")
                     td
                         div(class="row")

@@ -24,7 +24,7 @@ module.exports.getTreeData = function (req, res) {
                         while (currentElem = _listResults.find((elem) => elem._doc.listCat === currentCat)) {   //Mientras sigan quedando elementos de la categoria actual
                             treeNode.push({ text: currentElem._doc.listTitle,                                   //Vamos llenando el array de listas
                                             id: hash.generate(currentElem._doc._id.toString()),                 //Alamcenamos la id de la lista
-                                            icon: 'glyphicon glyphicon-list',                                   //Asigamos un icono a la lista
+                                            icon: 'glyphicon glyphicon-tag',                                   //Asigamos un icono a la lista
                                             //Tag con boton que pasa el nombre y la categoria como argumento
                                             tags: ["<input class=\"btn btn-sm btn-primary btn-block\" type=\"button\" value=\"Delete List\" onclick='deleteList(\"" +
                                                    currentElem._doc.listTitle + "\", \"" + currentElem._doc.listCat + "\")'>"]

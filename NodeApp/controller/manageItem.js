@@ -37,3 +37,10 @@ module.exports.addItem = function (req, res) {
 		}
 	});		
 }
+
+module.exports.deleteItem = function (req, res) {
+    itemModel.item.remove({ _id: req.body.id }, (err) => {
+        if (err) debug("ERROR: en item.remove", req.body.id);
+        else res.end("DELETE_OK");
+    });
+}

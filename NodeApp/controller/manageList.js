@@ -41,7 +41,8 @@ module.exports.createList = function (req, res, next) {
 						_itemResult.forEach((_item) => {items.push({text: _item.itemText,
 																	priority: _item.itemPriority,
 																	expire: _item.itemExpireTime,
-																	done: _item.itemDone});
+                                                                    done: _item.itemDone,
+                                                                    id: _item._id});
 						});
 						res.render('manageList.pug', {	listId: req.body.id,
 														user: req.session.user, 

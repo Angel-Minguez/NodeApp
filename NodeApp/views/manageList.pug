@@ -22,17 +22,22 @@
                                                      priority: $("#selectPriority").val(),
                                                      time: $("#timeItem").val(),
                                                      listTitle: title}, (data)=> {
-                    if(data = "SAVE_OK") updateTreeView(()=>{
-                        console.log(title);
-                        console.log($("#tree").treeview("search", [title]));
+                    if(data == "SAVE_OK") updateTreeView(()=>{
                         $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
                     });
+                });
+            }
+            function deleteItem(id, title) {
+                $.post("/home/manageItem/deleteItem", {id: id}, (data)=>{
+                    if(data == "DELETE_OK") updateTreeView(() => {
+                        $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
+                    });       
                 });
             }
             function editTitle() {
                 $.post("/home/manageList/saveList_form", {cat:$("#selectCat").val(), campo1: $("#editTitleText").val()}, (data) => {
                     $("#titleDiv").text($("#editTitleText").val());
-                    if(data==='SAVE_OK') updateTreeView();
+                    if(data == 'SAVE_OK') updateTreeView();
                     showEditTitle();
                 });
             }
@@ -53,7 +58,7 @@
                     return;
                 }
                 $.post("/home/manageList/saveList_form", { cat: category, campo1: $("#createTitleText").val() }, (data) => {
-                    if(data==='SAVE_OK') updateTreeView( () => {
+                    if(data == 'SAVE_OK') updateTreeView( () => {
                         $("#tree").treeview("selectNode", $("#tree").treeview("search", [$("#createTitleText").val()]));
                     });       
                 });
@@ -127,7 +132,7 @@ div(class="container-fluid")
                         td
                             div(class="row")
                                 div(class="col-xs-12")!= val.text
-                                    span(id="deleteItemIcon" class="glyphicon glyphicon-remove" onclick="")
+                                    span(id="deleteItemIcon" class="glyphicon glyphicon-remove" onclick="deleteItem('"+val.id+"', '"+title+"')")
                                     span(id="optionsItemIcon" class="glyphicon glyphicon-option-horizontal" onclick="")
                 tr(id="addItemButton")
                     td

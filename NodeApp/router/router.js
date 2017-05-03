@@ -14,9 +14,9 @@ module.exports = function (req, res, next) {        //Funcion de routeo de reque
 	app.post('/home/manageList', require('../controller/manageList.js').createList);
 	app.get ('/home/manageList', require('../controller/manageList.js').deleteList);
     app.post('/home/manageList/addListCat_form', require('../controller/manageList.js').addListCat);
-    //app.post('/home/manageList/addListItem_form', require('../controller/manageList.js').addListItem);
     app.post('/home/manageList/saveList_form', require('../controller/manageList.js').saveList);
     app.post('/home/manageItem/addItem', require('../controller/manageItem.js').addItem);
+    app.post('/home/manageItem/deleteItem', require('../controller/manageItem.js').deleteItem);
     app.get ('/logout', require('../controller/logout.js'));
 	next();//Invocamos el siguiente elemento de la pila de middleware  
 }

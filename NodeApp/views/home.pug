@@ -10,9 +10,9 @@ html
         script(src="./node_modules/bootstrap-datetime-picker/js/bootstrap-datetimepicker.min.js")
         link(href="./node_modules/bootstrap-treeview/public/css/bootstrap-treeview.css" rel="stylesheet")
         link(href="./static/css/theme.min.css" rel="stylesheet")
-        link(href="./static/css/home.css" rel="stylesheet")
         link(href="./node_modules/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet")
         link(href="./node_modules/bootstrap-datetime-picker/css/bootstrap-datetimepicker.min.css" rel="stylesheet")
+        link(href="./static/css/home.css" rel="stylesheet")
         script.
             $(document).ready(()=>{
                 updateTreeView()
@@ -28,9 +28,9 @@ html
                                          collapseIcon: "glyphicon glyphicon-tags",
                                          onNodeSelected: onNodeSelected,
                                          showBorder: false,
-                                         selectedBackColor: "#dddddd",
-                                         onhoverColor: "#dddddd",
-                                         selectedColor: "black"});
+                                         selectedBackColor: "white",
+                                         onhoverColor: "white",
+                                         selectedColor: "rgb(233, 84, 32)"});
                     if(callback) callback();
                     });
             }

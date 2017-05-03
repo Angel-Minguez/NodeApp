@@ -13,7 +13,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>85e98fc6-c91e-45b4-9c44-9dc1ea4d2c8b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>D:\Mis_Documentos\Proyectos\NodeApp\NodeApp\config\bootScript</StartupFile>
+    <StartupFile>D:\Mis Documentos\Proyectos\NodeApp\NodeApp\config\bootScript</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

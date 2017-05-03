@@ -19,7 +19,8 @@ module.exports.addItem = function (req, res) {
         itemExpireTime:date,   														//Fecha en la que la tarea vence
         itemText: req.body.text,                                                    //Texto de la tarea
         itemArchived: false,                                                        //Tarea activa o archivada
-        itemDone: false                                                             //Tarea finalizada o incompleta      
+        itemDone: false,                                                             //Tarea finalizada o incompleta
+		itemOrder: ++manageList.list.itemCount							
     });
 	//Guardamos el item
 	module.exports.item.save((err)=> {
@@ -37,10 +38,11 @@ module.exports.addItem = function (req, res) {
 		}
 	});		
 }
-
 module.exports.deleteItem = function (req, res) {
-    itemModel.item.remove({ _id: req.body.id }, (err) => {
-        if (err) debug("ERROR: en item.remove", req.body.id);
-        else res.end("DELETE_OK");
-    });
+    listModel.list.findOne({userName: req.session.user, listTitle: req.body.title}, (err, _list)=>{
+		itemModel.item.remove({ listId: _list._id, itemOrder: req.body.order }, (err) => {
+			if (err) debug("ERROR: en item.remove", req.body.id);
+			else res.end("DELETE_OK");
+		});		
+	});	
 }

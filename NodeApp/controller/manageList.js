@@ -21,7 +21,8 @@ module.exports.createList = function (req, res, next) {
 					listTitle: 'undefined',                                             //Titulo de la lista
 					listCreationTitle: 'undefined',                                     //Titulo original de creacion
                     listItems: [],                                                      //Elementos de la lista
-					listCreationTime: 'undefined'                                       //Fecha de la creacion de la lista
+					listCreationTime: 'undefined',                                       //Fecha de la creacion de la lista
+					itemCount: 0
 					});    
 		});
 	}
@@ -42,6 +43,7 @@ module.exports.createList = function (req, res, next) {
 																	priority: _item.itemPriority,
 																	expire: _item.itemExpireTime,
                                                                     done: _item.itemDone,
+																	order: _item.itemOrder,
                                                                     id: _item._id});
 						});
 						res.render('manageList.pug', {	listId: req.body.id,

@@ -27,8 +27,13 @@
                     });
                 });
             }
-            function deleteItem(id, title) {
-                $.post("/home/manageItem/deleteItem", {id: id}, (data)=>{
+            function editItem(order){
+                //$("#"+order).toggle();
+                $("#"+order).html($("#addItemForm").html());
+                $("#addItemText").focus();
+            }
+            function deleteItem(order, title) {
+                $.post("/home/manageItem/deleteItem", {order: order, title: title}, (data)=>{
                     if(data == "DELETE_OK") updateTreeView(() => {
                         $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
                     });       
@@ -92,12 +97,12 @@ div(class="container-fluid")
                                 div(class="row")
                                     div(class="btn-group")
                                         div(class="col-xs-12")
-                                            input(type="text" class="form-control input-sm" id="createTitleText" value= title)
+                                            input(type="text" size="100" class="form-control input-sm" id="createTitleText" value= title)
                                 br
                                 div(class="row")
                                     div(class="btn-group")
                                         div(class="col-xs-9" id="newCatForm")
-                                            input(type="text" class="form-control input-sm" id="createCatText" value= cat)
+                                            input(type="text" size="100" class="form-control input-sm" id="createCatText" value= cat)
                                         div(class="col-xs-3")
                                             select(class="selectpicker" id="selectCat" data-style="btn-primary btn-sm" data-width="100%" onchange="catChange()")
                                                 each val in cats
@@ -108,7 +113,7 @@ div(class="container-fluid")
                                 div(class="row")
                                     div(class="col-xs-10" id="titleDiv") #{title}
                                     div(class="col-xs-2")
-                                        div(class="dropdown btn-block" id="dropdownTitle") 
+                                        div(class="dropdown" id="dropdownTitle") 
                                             div(class="btn-group")
                                                 button(class="btn btn-sm btn-primary dropdown-toggle btn-block" type="button" id="titleDropdown" data-toggle="dropdown") Options
                                                     span(class="caret")
@@ -128,12 +133,23 @@ div(class="container-fluid")
                                 input(type="button" class="btn btn-sm btn-primary btn-block" value="Cancel" id="listTitileCancelButton" onclick="showEditTitle()")
             tbody
                 each val in elem
-                    tr(id="listItem")
+                    tr(id= val.order)
                         td
                             div(class="row")
                                 div(class="col-xs-12")!= val.text
-                                    span(id="deleteItemIcon" class="glyphicon glyphicon-remove" onclick="deleteItem('"+val.id+"', '"+title+"')")
-                                    span(id="optionsItemIcon" class="glyphicon glyphicon-option-horizontal" onclick="")
+                                    span(id="deleteItemIcon" class="glyphicon glyphicon-remove" onclick="deleteItem('"+val.order+"', '"+title+"')")
+                                    span(id="optionsItemIcon" class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown")
+                                    ul(class="dropdown-menu dropdown-menu-right") 
+                                        li
+                                            a(onclick="editItem('"+val.order+"')") Edit task
+                                        li 
+                                            a(onclick="archiveItem()") Archive task
+                                        li
+                                            a(onclick="deleteItem('"+val.id+"', '"+title+"')") Delete task
+                                        li
+                                            a(onclick="shareItem()") Sub task
+                                        li
+                                            a(onclick="shareItem()") Super task
                 tr(id="addItemButton")
                     td
                         div(class="row")
@@ -161,7 +177,6 @@ div(class="container-fluid")
                                     input(type="text" class="input-sm form-control" id="timeItem" placeholder=" Date & Time" readonly)
                                     span(class="input-group-addon")
                                         span(class="glyphicon glyphicon-calendar")
-
 div(id="listContainer" class="col-xs-12")
     form(id="listDone")
         input(type="button" class="btn btn-primary" value="Done" onclick="saveList()")

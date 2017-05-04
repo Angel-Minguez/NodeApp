@@ -12,30 +12,30 @@ const manageList = require('../controller/manageList.js');
 const debug = require('debug')('manageItem');							            //Modulo de mensajes de debug
 //Funcion que acepta y guarda los datos del item en la bd
 module.exports.addItem = function (req, res) {
-    if(!req.body.id){
+    let expire = new Date();
+    if (req.body.time) expire = new Date(req.body.time).toISOString();
+    if (!req.body.id) {
 		let date = new Date();
 		if(req.body.time!="") date = Date(req.body.time); 
 		module.exports.item = new itemModel.item({
 			listId : manageList.list._id,    
-			itemPriority: req.body.priority,                                            //Prioridad de la tarea
-			itemExpireTime:date,   														//Fecha en la que la tarea vence
+            itemPriority: req.body.priority,                                            //Prioridad de la tarea
+            itemExpireTime: expire,   														//Fecha en la que la tarea vence
 			itemText: req.body.text,                                                    //Texto de la tarea
 			itemArchived: false,                                                        //Tarea activa o archivada
 			itemDone: false,                                                            //Tarea finalizada o incompleta
-			hashedId: 'undefined'
-			//itemOrder: ++manageList.list.itemCount							
+			hashedId: 'undefined'							
 		});
 	}
 	//Edicion de item
 	else {
-		console.log("-------------------------->", req.body.time);
 		itemModel.item.findOne({hashedId: req.body.id}, (err, _item) =>{
 			if(err) debug("ERROR en item.findOne");
 			else {
-				_item.update({
+                _item.update({
 					itemPriority : req.body.priority,
-					itemText : req.body.text,
-					itemExpireTime : new Date(req.body.time)
+                    itemText: req.body.text,
+                    itemExpireTime: expire
 				},(err)=>{
 					if(err) debug("ERROR: en item.save", err.message);
 					else debug("Guardado con exito:", module.exports.item)
@@ -63,10 +63,8 @@ module.exports.addItem = function (req, res) {
 	});		
 }
 module.exports.deleteItem = function (req, res) {
-    listModel.list.findOne({userName: req.session.user, listTitle: req.body.title}, (err, _list)=>{
-		itemModel.item.remove({ listId: _list._id, itemOrder: req.body.order }, (err) => {
-			if (err) debug("ERROR: en item.remove", req.body.id);
-			else res.end("DELETE_OK");
-		});		
-	});	
+	itemModel.item.remove({ hashedId: req.body.id }, (err) => {
+		if (err) debug("ERROR: en item.remove", req.body.id);
+		else res.end("DELETE_OK");
+	});		
 }

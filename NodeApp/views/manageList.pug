@@ -1,7 +1,8 @@
 ﻿script.
+    var editing = false;
     $(document).ready(()=>{
         $(".form_datetime").datetimepicker({
-            format: "yyyy-mm-dd hh:ii:ss",
+            format: "yyyy-mm-dd hh:ii",
             autoclose: true,
             todayBtn: false,
             pickerPosition: "bottom-left"
@@ -10,110 +11,113 @@
         if(#{catCount} > 0) $("#createCatText").attr("disabled", true);
         else $("#createCatText").attr("disabled", false);
     });
-            function addTask(){
-                $("#addItemButton").toggle();
-                $("#addItemForm").toggle();
-                $("#addItemText").focus();
-            }
-            function postItem(title, id){
-                if(id=="create") {
-                    $.post("/home/manageItem/addItem", { text: $("#addItemText").val(),
-                                                         priority: $("#selectPriority").val(),
-                                                         time: $("#timeItem").val(),
-                                                         listTitle: title }, (data)=> {
-                        if(data == "SAVE_OK") updateTreeView(()=>{
-                            $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
-                        });
-                    });
-                }
-                else {
-                    $.post("/home/manageItem/addItem", { text: $("#addItemText").val(),
-                                                         priority: $("#selectPriority").val(),
-                                                         time: $("#timeItem").val(),
-                                                         listTitle: title,
-                                                         id: id.replace(/\-/g, '$')}, (data)=> {
-                        if(data == "EDIT_OK") updateTreeView(()=>{
-                            $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
-                        });
-                    });
-                }
-            }
-            function editItem (title, id, text, time, priority){
-                $("#submitItemButton").attr("onclick", "postItem(\"" + title + "\" , \"" + id + "\")");
-                $("#selectPriority").selectpicker("destroy");
-                $("#addItemButton").hide();
-                $("#" + id.replace(/\$/g, '-')).html($("#addItemForm").html());
-                $("#selectPriority").selectpicker("val", priority);
-                $("#addItemText").val(text);
-                $(".form_datetime").datetimepicker("remove");
-                $(".form_datetime").datetimepicker({
-                    format: "yyyy-mm-dd hh:ii:ss",
-                    autoclose: true,
-                    todayBtn: false,
-                    pickerPosition: "bottom-left"
+    function addTask(){
+        $("#addItemButton").toggle();
+        $("#addItemForm").toggle();
+        $("#addItemText").focus();
+    }
+    function postItem(title, id){
+        if(id=="create") {
+            $.post("/home/manageItem/addItem", { text: $("#addItemText").val(),
+                                                    priority: $("#selectPriority").val(),
+                                                    time: $("#timeItem").val(),
+                                                    listTitle: title }, (data)=> {
+                if(data == "SAVE_OK") updateTreeView(()=>{
+                    $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
                 });
-                let parsedDate = new Date(time);
-                parsedDate = parsedDate.toISOString();
-                $("#timeItem").val(parsedDate);
-                $(".form_datetime").datetimepicker("update");
-                
-             
-                $("#addItemText").focus();
-            }
-            function deleteItem(order, title) {
-                $.post("/home/manageItem/deleteItem", {order: order, title: title}, (data)=>{
-                    if(data == "DELETE_OK") updateTreeView(() => {
-                        $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
-                    });       
+            });
+        }
+        else {
+            $.post("/home/manageItem/addItem", { text: $("#addItemText").val(),
+                                                    priority: $("#selectPriority").val(),
+                                                    time: $("#timeItem").val(),
+                                                    listTitle: title,
+                                                    id: id.replace(/\-/g, '$')}, (data)=> {
+                if(data == "EDIT_OK") updateTreeView(()=>{
+                    $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
+                    editing = false;
                 });
-            }
-            function editTitle() {
-                $.post("/home/manageList/saveList_form", {cat:$("#selectCat").val(), campo1: $("#editTitleText").val()}, (data) => {
-                    $("#titleDiv").text($("#editTitleText").val());
-                    if(data == 'SAVE_OK') updateTreeView();
-                    showEditTitle();
-                });
-            }
-            function saveList() {
-                var category;
-                if(!$("#createCatText").val()){
-                    $("#createCatText").focus();
-                    $("#errorMessage").text("Please choose a category");
-                    $(".alert").show();
-                    return;
-                }
-                if ($("#selectCat").val()!== 'New') category = $("#selectCat").val();
-                else category = $("#createCatText").val()
-                if(!$("#createTitleText").val()) {
-                    $("#createTitleText").focus();
-                    $("#errorMessage").text("Please add a title to your list");
-                    $(".alert").show(); 
-                    return;
-                }
-                $.post("/home/manageList/saveList_form", { cat: category, campo1: $("#createTitleText").val() }, (data) => {
-                    if(data == 'SAVE_OK') updateTreeView( () => {
-                        $("#tree").treeview("selectNode", $("#tree").treeview("search", [$("#createTitleText").val()]));
-                    });       
-                });
-            }
-            function catChange() {
-                if($("#selectCat").val() === 'New') {
-                    $("#createCatText").val("Type a new category");
-                    $("#createCatText").attr("disabled", false);
-                    $("#createCatText").focus();
-                    return;
-                }
-                $("#createCatText").val($("#selectCat").val());
-                $("#createCatText").attr("disabled", true);
-            }
-            function showEditTitle(){
-                $("#thTitle").toggle();
-                $("#thEditTitle").toggle();
-                $("#editTitleText").focus();
-            }
-            function updateView() {
-                $("#tree").treeview("selectNode", $("#tree").treeview("getSelected"));
-            }
+            });
+        }
+    }
+    function editItem (title, id, text, time, priority){
+        if(editing) return;
+        else editing = true;
+        $("#submitItemButton").attr("onclick", "postItem(\"" + title + "\" , \"" + id + "\")");
+        $("#selectPriority").selectpicker("destroy");
+        $("#addItemButton").hide();
+        $("#" + id.replace(/\$/g, '-')).html($("#addItemForm").html());
+        $("#selectPriority").selectpicker("val", priority);
+        $("#addItemText").val(text);
+        $(".form_datetime").datetimepicker({
+            format: "yyyy-mm-dd hh:ii",
+            autoclose: true,
+            todayBtn: false,
+            pickerPosition: "bottom-left"
+        });
+        $("#timeItem").val(time);
+        $(".form_datetime").datetimepicker("update");
+        $("#addItemText").focus();
+    }
+    function deleteItem(id, title) {
+        $.post("/home/manageItem/deleteItem", { id: id }, (data)=>{
+            if(data == "DELETE_OK") updateTreeView(() => {
+                $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
+            });       
+        });
+    }
+    function cancelItem(title){
+            updateTreeView(()=>{
+            $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
+        });
+    }
+    function editTitle() {
+        $.post("/home/manageList/saveList_form", {cat:$("#selectCat").val(), campo1: $("#editTitleText").val()}, (data) => {
+            $("#titleDiv").text($("#editTitleText").val());
+            if(data == 'SAVE_OK') updateTreeView();
+            showEditTitle();
+        });
+    }
+    function saveList() {
+        var category;
+        if(!$("#createCatText").val()){
+            $("#createCatText").focus();
+            $("#errorMessage").text("Please choose a category");
+            $(".alert").show();
+            return;
+        }
+        if ($("#selectCat").val()!== 'New') category = $("#selectCat").val();
+        else category = $("#createCatText").val()
+        if(!$("#createTitleText").val()) {
+            $("#createTitleText").focus();
+            $("#errorMessage").text("Please add a title to your list");
+            $(".alert").show(); 
+            return;
+        }
+        $.post("/home/manageList/saveList_form", { cat: category, campo1: $("#createTitleText").val() }, (data) => {
+            if(data == 'SAVE_OK') updateTreeView( () => {
+                $("#tree").treeview("selectNode", $("#tree").treeview("search", [$("#createTitleText").val()]));
+            });       
+        });
+    }
+    function catChange() {
+        if($("#selectCat").val() === 'New') {
+            $("#createCatText").val("Type a new category");
+            $("#createCatText").attr("disabled", false);
+            $("#createCatText").focus();
+            return;
+        }
+        $("#createCatText").val($("#selectCat").val());
+        $("#createCatText").attr("disabled", true);
+    }
+    function showEditTitle(){
+        $("#thTitle").toggle();
+        $("#thEditTitle").toggle();
+        $("#editTitleText").focus();
+    }
+    function updateView() {
+        $("#tree").treeview("selectNode", $("#tree").treeview("getSelected"));
+    }
 div(class="container-fluid")
     div(class="col-xs-12")     
         table(class="table table-borderless")
@@ -164,7 +168,7 @@ div(class="container-fluid")
             tbody
                 each val in elem
                     -var parsedId = val.id.replace(/\$/g, '-')
-                    -var parsedDate = val.expire.toISOString()
+                    -var parsedDate = val.expire.toISOString().replace("T", " ").slice(0,16);
                     tr(id= parsedId)
                         td
                             div(class="row")
@@ -173,15 +177,15 @@ div(class="container-fluid")
                                         div(class="col-xs-4")!= val.priority
                                         div(class="col-xs-7")!= parsedDate
                                 div(class="col-xs-2")
-                                    span(id="deleteItemIcon" class="glyphicon glyphicon-remove" onclick="deleteItem('"+val.order+"', '"+title+"')")
+                                    span(id="deleteItemIcon" class="glyphicon glyphicon-remove" onclick="deleteItem('"+val.id+"','"+title+"')")
                                     span(id="optionsItemIcon" class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown")
                                     ul(class="dropdown-menu dropdown-menu-right") 
                                         li
-                                            a(onclick="editItem('"+title+"', '"+val.id+"', '"+val.text+"','"+val.expire+"', '"+val.priority+"' )") Edit task
+                                            a(onclick="editItem('"+title+"', '"+val.id+"', '"+val.text+"','"+parsedDate+"', '"+val.priority+"')") Edit task
                                         li 
                                             a(onclick="archiveItem()") Archive task
                                         li
-                                            a(onclick="deleteItem('"+val.id+"', '"+title+"')") Delete task
+                                            a(onclick="deleteItem('"+val.id+"','"+title+"')") Delete task
                                         li
                                             a(onclick="shareItem()") Sub task
                                         li
@@ -200,7 +204,7 @@ div(class="container-fluid")
                             div(class="col-xs-2")
                                 button(id="submitItemButton" class="btn btn-sm btn-primary btn-block" type="button" onclick="postItem('"+title+"', \"create\")") Submit
                             div(class="col-xs-2")
-                                button(class="btn btn-sm btn-primary btn-block" type="button" onclick="") Cancel
+                                button(class="btn btn-sm btn-primary btn-block" type="button" onclick="cancelItem('"+title+"')") Cancel
                             div(class="col-xs-2")
                             div(class="col-xs-2")
                                 select(class="selectpicker" id="selectPriority" data-style="btn-sm btn-primary" data-width="100%")

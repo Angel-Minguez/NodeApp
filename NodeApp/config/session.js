@@ -26,7 +26,7 @@ else sessionOptions = {
         domain: '127.0.0.1',
         secure: true,
         maxAge: 1000 * 60 * 15,  //15 minutos
-        rolling: true
+        rolling: false
     }
 };
 if (process.env.DB === 'true') {                                                  //Comprobamos si MongoDB esta habilitado

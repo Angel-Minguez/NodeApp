@@ -11,7 +11,8 @@ const manageList = require('../controller/manageList.js');
 const debug = require('debug')('manageItem');							            //Modulo de mensajes de debug
 //Funcion que acepta y guarda los datos del item en la bd
 module.exports.addItem = function (req, res) {
-    let date= new Date();
+    console.log("__________________________>",req.body);
+    let date = new Date();
 	if(req.body.time!="") date = Date(req.body.time); 
 	module.exports.item = new itemModel.item({
         listId : manageList.list._id,    

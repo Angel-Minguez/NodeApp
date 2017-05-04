@@ -4,31 +4,39 @@
         if($("#selectCat").val() === 'New') $("#newCatForm").show();
         if(#{catCount} > 0) $("#createCatText").attr("disabled", true);
         else $("#createCatText").attr("disabled", false);
-        $(".selectpicker").selectpicker();
-        $(".form_datetime").datetimepicker({
-            format: "yyyy-mm-dd hh:ii",
-            autoclose: true,
-            todayBtn: false,
-            pickerPosition: "bottom-left"
-        });
     });
             function addTask(){
                 $("#addItemButton").toggle();
                 $("#addItemForm").toggle();
                 $("#addItemText").focus();
             }
-            function postItem(title){
-                $.post("/home/manageItem/addItem", { text: $("#addItemText").val(),
-                                                     priority: $("#selectPriority").val(),
-                                                     time: $("#timeItem").val(),
-                                                     listTitle: title}, (data)=> {
-                    if(data == "SAVE_OK") updateTreeView(()=>{
-                        $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
+            function postItem(title, itemOrder){
+                if(itemOrder=="create") {
+                    $.post("/home/manageItem/addItem", { text: $("#addItemText").val(),
+                                                         priority: $("#selectPriority").val(),
+                                                         time: $("#timeItem").val(),
+                                                         listTitle: title }, (data)=> {
+                        if(data == "SAVE_OK") updateTreeView(()=>{
+                            $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
+                        });
                     });
-                });
+                }
+                else {
+                    $.post("/home/manageItem/addItem", { text: $("#addItemText").val(),
+                                                         priority: $("#selectPriority").val(),
+                                                         time: $("#timeItem").val(),
+                                                         listTitle: title,
+                                                         order: itemOrder}, (data)=> {
+                        if(data == "SAVE_OK") updateTreeView(()=>{
+                            $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
+                            $("#addItemButton").show();
+                        });
+                    });
+                }
             }
-            function editItem(order){
-                //$("#"+order).toggle();
+            function editItem (order){
+                $("#submitItemButton").attr("onclick", "postItem(\"edit\", \"" + order + "\")");
+                $("#addItemButton").hide();
                 $("#"+order).html($("#addItemForm").html());
                 $("#addItemText").focus();
             }
@@ -162,7 +170,7 @@ div(class="container-fluid")
                                 input(type="text" class="form-control input-sm" id="addItemText" placeholder="Add a description of your new task")
                         div(class="row")
                             div(class="col-xs-2")
-                                button(class="btn btn-sm btn-primary btn-block" type="button" onclick="postItem('"+title+"')") Submit
+                                button(id="submitItemButton" class="btn btn-sm btn-primary btn-block" type="button" onclick="postItem('"+title+"', \"create\")") Submit
                             div(class="col-xs-2")
                                 button(class="btn btn-sm btn-primary btn-block" type="button" onclick="") Cancel
                             div(class="col-xs-2")
@@ -172,11 +180,20 @@ div(class="container-fluid")
                                         option Low
                                         option Normal
                                         option High
+                            script. 
+                                $("#selectPriority").selectpicker();
                             div(class="col-xs-4")
                                 div(class="input-group date form_datetime")
                                     input(type="text" class="input-sm form-control" id="timeItem" placeholder=" Date & Time" readonly)
                                     span(class="input-group-addon")
                                         span(class="glyphicon glyphicon-calendar")
+                            script.
+                                $(".form_datetime").datetimepicker({
+                                    format: "yyyy-mm-dd hh:ii",
+                                    autoclose: true,
+                                    todayBtn: false,
+                                    pickerPosition: "bottom-left"
+                                });
 div(id="listContainer" class="col-xs-12")
     form(id="listDone")
         input(type="button" class="btn btn-primary" value="Done" onclick="saveList()")

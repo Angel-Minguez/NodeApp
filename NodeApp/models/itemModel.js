@@ -12,7 +12,7 @@ var itemSchema = mongoose.Schema({                              //Esquema del do
     listId: { type: mongoose.Schema.Types.ObjectId, ref: listModel },   //Id de la lista que la contiene
     itemArchived: Boolean,                                      //Tarea activa o archivada
     itemDone: Boolean,                                          //Tarea finalizada o incompleta
-    itemOrder: Number
+    hashedId: String
 });
 var item = mongoose.model('item', itemSchema);                  //Creamos el modelo a partir de esquema
 module.exports.item = item;                                     //Exportamos el modelo

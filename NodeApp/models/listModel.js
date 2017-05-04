@@ -13,7 +13,7 @@ var listSchema = mongoose.Schema({                                  //Esquema de
     listCreationTitle: String,                                      //Titulo con el que la lista fue creada                    
     listItems: [{ type:mongoose.Schema.Types.ObjectId, ref: itemModel}],  //Elementos de la lista
     listCreationTime: String,                                       //Fecha de la creacion de la lista
-	itemCount: Number
+	//itemCount: Number
 });
 var list = mongoose.model('list', listSchema);                      //Creamos el modelo a partir de esquema
 module.exports.list = list;                                         //Exportamos el modelo

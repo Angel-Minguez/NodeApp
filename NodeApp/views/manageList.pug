@@ -1,6 +1,11 @@
 ﻿script.
     $(document).ready(()=>{
-        $().alert();
+        $(".form_datetime").datetimepicker({
+            format: "yyyy-mm-dd hh:ii:ss",
+            autoclose: true,
+            todayBtn: false,
+            pickerPosition: "bottom-left"
+        });
         if($("#selectCat").val() === 'New') $("#newCatForm").show();
         if(#{catCount} > 0) $("#createCatText").attr("disabled", true);
         else $("#createCatText").attr("disabled", false);
@@ -10,8 +15,8 @@
                 $("#addItemForm").toggle();
                 $("#addItemText").focus();
             }
-            function postItem(title, itemOrder){
-                if(itemOrder=="create") {
+            function postItem(title, id){
+                if(id=="create") {
                     $.post("/home/manageItem/addItem", { text: $("#addItemText").val(),
                                                          priority: $("#selectPriority").val(),
                                                          time: $("#timeItem").val(),
@@ -26,18 +31,33 @@
                                                          priority: $("#selectPriority").val(),
                                                          time: $("#timeItem").val(),
                                                          listTitle: title,
-                                                         order: itemOrder}, (data)=> {
-                        if(data == "SAVE_OK") updateTreeView(()=>{
+                                                         id: id.replace(/\-/g, '$')}, (data)=> {
+                        if(data == "EDIT_OK") updateTreeView(()=>{
                             $("#tree").treeview("selectNode", $("#tree").treeview("search", [title]));
-                            $("#addItemButton").show();
                         });
                     });
                 }
             }
-            function editItem (order){
-                $("#submitItemButton").attr("onclick", "postItem(\"edit\", \"" + order + "\")");
+            function editItem (title, id, text, time, priority){
+                $("#submitItemButton").attr("onclick", "postItem(\"" + title + "\" , \"" + id + "\")");
+                $("#selectPriority").selectpicker("destroy");
                 $("#addItemButton").hide();
-                $("#"+order).html($("#addItemForm").html());
+                $("#" + id.replace(/\$/g, '-')).html($("#addItemForm").html());
+                $("#selectPriority").selectpicker("val", priority);
+                $("#addItemText").val(text);
+                $(".form_datetime").datetimepicker("remove");
+                $(".form_datetime").datetimepicker({
+                    format: "yyyy-mm-dd hh:ii:ss",
+                    autoclose: true,
+                    todayBtn: false,
+                    pickerPosition: "bottom-left"
+                });
+                let parsedDate = new Date(time);
+                parsedDate = parsedDate.toISOString();
+                $("#timeItem").val(parsedDate);
+                $(".form_datetime").datetimepicker("update");
+                
+             
                 $("#addItemText").focus();
             }
             function deleteItem(order, title) {
@@ -117,6 +137,8 @@ div(class="container-fluid")
                                                     option!= val
                                                 optgroup(class="select-hr")
                                                     option New
+                                        script.
+                                            $("#selectCat").selectpicker();
                             else
                                 div(class="row")
                                     div(class="col-xs-10" id="titleDiv") #{title}
@@ -141,15 +163,21 @@ div(class="container-fluid")
                                 input(type="button" class="btn btn-sm btn-primary btn-block" value="Cancel" id="listTitileCancelButton" onclick="showEditTitle()")
             tbody
                 each val in elem
-                    tr(id= val.order)
+                    -var parsedId = val.id.replace(/\$/g, '-')
+                    -var parsedDate = val.expire.toISOString()
+                    tr(id= parsedId)
                         td
                             div(class="row")
-                                div(class="col-xs-12")!= val.text
+                                div(class="col-xs-10")!= val.text
+                                    div(class="row")
+                                        div(class="col-xs-4")!= val.priority
+                                        div(class="col-xs-7")!= parsedDate
+                                div(class="col-xs-2")
                                     span(id="deleteItemIcon" class="glyphicon glyphicon-remove" onclick="deleteItem('"+val.order+"', '"+title+"')")
                                     span(id="optionsItemIcon" class="glyphicon glyphicon-option-horizontal dropdown-toggle" data-toggle="dropdown")
                                     ul(class="dropdown-menu dropdown-menu-right") 
                                         li
-                                            a(onclick="editItem('"+val.order+"')") Edit task
+                                            a(onclick="editItem('"+title+"', '"+val.id+"', '"+val.text+"','"+val.expire+"', '"+val.priority+"' )") Edit task
                                         li 
                                             a(onclick="archiveItem()") Archive task
                                         li
@@ -167,7 +195,7 @@ div(class="container-fluid")
                     td
                         div(class="row")
                             div(class="col-xs-12" id="addItemTextDiv")
-                                input(type="text" class="form-control input-sm" id="addItemText" placeholder="Add a description of your new task")
+                                textarea(type="text" class="form-control input-sm" id="addItemText" row="3" placeholder="Add a description of your new task")
                         div(class="row")
                             div(class="col-xs-2")
                                 button(id="submitItemButton" class="btn btn-sm btn-primary btn-block" type="button" onclick="postItem('"+title+"', \"create\")") Submit
@@ -187,13 +215,6 @@ div(class="container-fluid")
                                     input(type="text" class="input-sm form-control" id="timeItem" placeholder=" Date & Time" readonly)
                                     span(class="input-group-addon")
                                         span(class="glyphicon glyphicon-calendar")
-                            script.
-                                $(".form_datetime").datetimepicker({
-                                    format: "yyyy-mm-dd hh:ii",
-                                    autoclose: true,
-                                    todayBtn: false,
-                                    pickerPosition: "bottom-left"
-                                });
 div(id="listContainer" class="col-xs-12")
     form(id="listDone")
         input(type="button" class="btn btn-primary" value="Done" onclick="saveList()")

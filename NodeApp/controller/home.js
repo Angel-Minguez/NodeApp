@@ -26,7 +26,9 @@ module.exports.getTreeData = function (req, res) {
                                             id: hash.generate(currentElem._doc._id.toString()),                 //Alamcenamos la id de la lista
                                             icon: 'glyphicon glyphicon-tag',                                   //Asigamos un icono a la lista
                                             //Tag con boton que pasa el nombre y la categoria como argumento
-                                            tags: ["<input class=\"btn btn-sm btn-primary btn-block\" type=\"button\" value=\"Delete List\" onclick='deleteList(\"" +
+                                            //tags: ["<input class=\"btn btn-sm btn-primary btn-block\" type=\"button\" value=\"Delete List\" onclick='deleteList(\"" +
+                                                  // currentElem._doc.listTitle + "\", \"" + currentElem._doc.listCat + "\")'>"]
+											tags:["<span class=\"glyphicon glyphicon-remove\" onclick='deleteList(\"" +
                                                    currentElem._doc.listTitle + "\", \"" + currentElem._doc.listCat + "\")'>"]
                             }); 
                             _listResults.splice(_listResults.indexOf(currentElem), 1);              //Eliminamos el elemento del array de resultados

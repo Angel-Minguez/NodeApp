@@ -17,13 +17,21 @@ body {
     outline-color: rgb(233, 84, 32);
 } 
 .badge{
-	background-color: rgb(233, 84, 32);
-	border-radius: 3px;
+	position:relative;
+	background-color: white;
+	top:8px;
+	right:10%;
+}
+.badge span.glyphicon{
+	color: #ddd;
+}
+.badge span.glyphicon:hover{
+	color: rgb(233, 84, 32);
 }
 .a:hover {
     text-decoration:none;
 }
-.glyphicon{
+.treeview span.icon{
 	color: rgb(233, 84, 32);
 }
 #treeLabel, #listTitle {
@@ -39,8 +47,14 @@ li.list-group-item.node-tree {
 span.badge{
     padding:0 0 0 0;
 }
+#dropdownTitle{
+	text-align:right;
+}
 #titleDropdown{
-    float: right;
+	color: #ccc;
+}
+#titleDropdown:hover{
+	color: rgb(233, 84, 32);
 }
 dropdown{
     float:right;
@@ -65,7 +79,10 @@ dropdown{
 	width:100%;
 }
 .bootstrap-select.btn-group.dropdown-menu li > a {
-    text-align: center;
+	padding-left:10%;
+}
+.bootstrap-select.btn-group.dropdown-menu li a span.glyphicon{ 
+	color:#ddd;
 }
 #thEditTitle, #addItemForm{
     display:none;
@@ -73,15 +90,8 @@ dropdown{
 #addItemTextDiv {
     padding-bottom: 10px;
 }
-.minute.active, .hour.active, .day.active {  
-    border-radius:0px;
-    background-color:yellow;
-}
 .input-group-addon {
     padding:0px 5px 0px 5px;
-}
-.alert {
-    display:none;
 }
 #deleteItemIcon, #optionsItemIcon {
 	float:right;

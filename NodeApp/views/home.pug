@@ -35,7 +35,7 @@ html
                     });
             }
             function onNodeSelected(event, node) {
-                $.post("/home/manageList", {action:"edit", 
+                $.post("/home/manageList", {action: "edit", 
                                             parent : $("#tree").treeview("getParent", node), 
                                             name: node.text, 
                                             id: node.id}, (data) => {
@@ -43,9 +43,11 @@ html
                 });  
             }
             function createList() {
-                $.post("/home/manageList", {action:"create"},(data) => {
-                $("#listView").html(data.toString());
-                });  
+                $.post("/home/manageList", {action: "create"},(data) => {
+                    $("#listView").html(data.toString());
+                    $("#addItemButton").hide();
+                });
+
             }
             function deleteList(listName, listCat) {
                 $.get("/home/manageList", {name: listName, cat:listCat}, ()=> updateTreeView());

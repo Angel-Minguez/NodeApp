@@ -45,7 +45,8 @@ module.exports.createList = function (req, res, next) {
 																	order: _item.itemOrder,
                                                                     id: _item.hashedId});
 						});
-						res.render('manageList.pug', {	listId: req.body.id,
+						res.render('manageList.pug', {	action: "edit",
+														listId: req.body.id,
 														user: req.session.user, 
 														cats: [],
 														catCount: 0,
@@ -73,8 +74,7 @@ module.exports.createList = function (req, res, next) {
 					}
                     cats.push(currentCat);                                         		                //Añadimos el array de listas al array de categorias 
 			}
-			//cats.push('New');
-            res.render('manageList.pug', {  action: 'create',
+            res.render('manageList.pug', {  action: "create",
                                             user: req.session.user,
                                             cats: cats,
                                             catCount: cats.length,
